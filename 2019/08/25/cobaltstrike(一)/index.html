@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="https://cuokon.github.io/live2d/autoload.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "23b069a1"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    search: {
+      root: '/',
+      path: 'search.xml'
+    },
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="工具分享链接: https://pan.baidu.com/s/1dyNrdX-MJJadb7YOWBP3Dw  提取码: 4rhw  文件树1234567891011121314151617181920212223242526272829303132333435363738394041424344├── 48643_20161201044301.zip		├── agscript					拓展应">
+<meta name="keywords" content="tool">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cobaltstrike(一)">
+<meta property="og:url" content="http://cuokon.github.com/2019/08/25/cobaltstrike(一)/index.html">
+<meta property="og:site_name" content="错空&#39;s Blog">
+<meta property="og:description" content="工具分享链接: https://pan.baidu.com/s/1dyNrdX-MJJadb7YOWBP3Dw  提取码: 4rhw  文件树1234567891011121314151617181920212223242526272829303132333435363738394041424344├── 48643_20161201044301.zip		├── agscript					拓展应">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/1%E5%BC%80%E5%90%AFcs.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/1%E5%BC%80%E5%90%AFcs.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/2%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/3cs%E7%95%8C%E9%9D%A2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/4%E7%9B%91%E5%90%AC%E5%99%A8%E6%8C%89%E9%92%AE.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/5%E7%82%B9%E5%87%BBadd.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/6%E6%B7%BB%E5%8A%A0%E7%9B%91%E5%90%AC%E5%99%A8.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/7%E7%9B%91%E5%90%AC%E5%99%A8.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/8%E7%94%9F%E6%88%90%E5%90%8E%E9%97%A8.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/9%E9%85%8D%E7%BD%AE%E6%9C%A8%E9%A9%AC.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/10%E4%B8%BB%E6%9C%BA%E4%B8%8A%E7%BA%BF.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/11%E5%88%B6%E4%BD%9Cmsf%E7%9B%91%E5%90%AC%E5%99%A8.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/12%E9%85%8D%E7%BD%AEmsf.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/13%E6%B4%BE%E7%94%9Fshell.png.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/14%E8%AE%BE%E7%BD%AE%E5%8F%8D%E5%BC%B9shell.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/15%E5%8F%8D%E5%BC%B9%E6%88%90%E5%8A%9F.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/16msfshell.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/17%E9%85%8D%E7%BD%AEmsf.png">
+<meta property="og:image" content="http://cuokon.github.com/image/cs1/18%E4%B8%BB%E6%9C%BA%E4%B8%8A%E7%BA%BF.png">
+<meta property="og:updated_time" content="2019-08-26T01:32:37.374Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cobaltstrike(一)">
+<meta name="twitter:description" content="工具分享链接: https://pan.baidu.com/s/1dyNrdX-MJJadb7YOWBP3Dw  提取码: 4rhw  文件树1234567891011121314151617181920212223242526272829303132333435363738394041424344├── 48643_20161201044301.zip		├── agscript					拓展应">
+<meta name="twitter:image" content="http://cuokon.github.com/image/cs1/1%E5%BC%80%E5%90%AFcs.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://cuokon.github.com/2019/08/25/cobaltstrike(一)/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  
+  <title>cobaltstrike(一) | 错空's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">错空's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">学无止境</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="javascript:;" class="popup-trigger">
+          
+            <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cuokon.github.com/2019/08/25/cobaltstrike(一)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cuo kon">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/43626445">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="错空's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">cobaltstrike(一)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-25 20:33:55" itemprop="dateCreated datePublished" datetime="2019-08-25T20:33:55+08:00">2019-08-25</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-26 09:32:37" itemprop="dateModified" datetime="2019-08-26T09:32:37+08:00">2019-08-26</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习记录/" itemprop="url" rel="index"><span itemprop="name">学习记录</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+                 阅读次数： 
+                <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+              </span>
+            </span>
+          
+		  
+		  
+          
+
+          <br>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span title="本文字数">3.7k</span>
+            </span>
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span title="阅读时长">3 分钟</span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="工具分享"><a href="#工具分享" class="headerlink" title="工具分享"></a>工具分享</h2><p>链接: <a href="https://pan.baidu.com/s/1dyNrdX-MJJadb7YOWBP3Dw" target="_blank" rel="noopener">https://pan.baidu.com/s/1dyNrdX-MJJadb7YOWBP3Dw</a>  提取码: 4rhw </p>
+<h2 id="文件树"><a href="#文件树" class="headerlink" title="文件树"></a>文件树</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">├── 48643_20161201044301.zip		</span><br><span class="line">├── agscript					拓展应用的脚本</span><br><span class="line">├── c2lint						检查c2配置文件的语法和预览</span><br><span class="line">├── cobaltstrike - 副本.bat	   window客户端</span><br><span class="line">├── cobaltstrike.bat			</span><br><span class="line">├── CobaltStrikeCN.jar			汉化程序</span><br><span class="line">├── cobaltstrike.jar			主要程序</span><br><span class="line">├── cobaltstrike.store</span><br><span class="line">├── data</span><br><span class="line">│   ├── archives.bin</span><br><span class="line">│   ├── c2info.bin</span><br><span class="line">│   ├── listeners.bin</span><br><span class="line">│   ├── sessions.bin</span><br><span class="line">│   └── targets.bin</span><br><span class="line">├── icon.jpg</span><br><span class="line">├── keytool.exe</span><br><span class="line">├── logs</span><br><span class="line">│   ├── 190317</span><br><span class="line">│   │   ├── 169.254.245.9</span><br><span class="line">│   │   │   ├── beacon_1031.log</span><br><span class="line">│   │   │   └── beacon_90986.log</span><br><span class="line">│   │   ├── events.log</span><br><span class="line">│   │   └── weblog.log</span><br><span class="line">│   └── 190825</span><br><span class="line">│       └── events.log</span><br><span class="line">├── peclone</span><br><span class="line">├── Readme-说明.htm</span><br><span class="line">├── Scripts				脚本</span><br><span class="line">│   ├── CVE-2018-4878.cna</span><br><span class="line">│   ├── elevate.cna</span><br><span class="line">│   ├── modules</span><br><span class="line">│   │   ├── cve-2015-1701.x64.dll</span><br><span class="line">│   │   ├── cve-2015-1701.x86.dll</span><br><span class="line">│   │   ├── cve-2016-0051.x86.dll</span><br><span class="line">│   │   ├── Invoke-EventVwrBypass.ps1</span><br><span class="line">│   │   ├── Invoke-MS16032.ps1</span><br><span class="line">│   │   └── Invoke-WScriptBypassUAC.ps1</span><br><span class="line">│   └── ProcessTree.cna</span><br><span class="line">├── teamserver				启动工具的脚本</span><br><span class="line">├── teamserver.bat			window下启动工具的脚本</span><br><span class="line">└── third-party				第三方工具</span><br><span class="line">    ├── README.vncdll.txt</span><br><span class="line">    ├── winvnc.x64.dll		64位的vnc</span><br><span class="line">    └── winvnc.x86.dll		32位的vnc</span><br></pre></td></tr></table></figure>
+
+<h2 id="工具运行"><a href="#工具运行" class="headerlink" title="工具运行"></a>工具运行</h2><p>进入目录执行先把服务端开好<br>命令语法:<code>./teamserver ip地址 密码</code></p>
+<p>如图:<br><img src="../../../../image/cs1/1%E5%BC%80%E5%90%AFcs.png" alt="开启cs"></p>
+<p>客户端连接:</p>
+<p>命令:<code>java -XX:ParallelGCThreads=4 -XX:+AggressiveHeap -XX:+UseParallelGC -jar cobaltstrike.jar</code><br>开启汉化的命令是:<code>java -Dfile.encoding=UTF-8 -javaagent:CobaltStrikeCN.jar -XX:ParallelGCThreads=4 -XX:+AggressiveHeap -XX:+UseParallelGC -jar cobaltstrike.jar</code></p>
+<h2 id="工具分享-1"><a href="#工具分享-1" class="headerlink" title="工具分享"></a>工具分享</h2><p>链接: <a href="https://pan.baidu.com/s/1dyNrdX-MJJadb7YOWBP3Dw" target="_blank" rel="noopener">https://pan.baidu.com/s/1dyNrdX-MJJadb7YOWBP3Dw</a>  提取码: 4rhw </p>
+<h2 id="文件树-1"><a href="#文件树-1" class="headerlink" title="文件树"></a>文件树</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">├── 48643_20161201044301.zip		</span><br><span class="line">├── agscript					拓展应用的脚本</span><br><span class="line">├── c2lint						检查c2配置文件的语法和预览</span><br><span class="line">├── cobaltstrike - 副本.bat	   window客户端</span><br><span class="line">├── cobaltstrike.bat			</span><br><span class="line">├── CobaltStrikeCN.jar			汉化程序</span><br><span class="line">├── cobaltstrike.jar			主要程序</span><br><span class="line">├── cobaltstrike.store</span><br><span class="line">├── data</span><br><span class="line">│   ├── archives.bin</span><br><span class="line">│   ├── c2info.bin</span><br><span class="line">│   ├── listeners.bin</span><br><span class="line">│   ├── sessions.bin</span><br><span class="line">│   └── targets.bin</span><br><span class="line">├── icon.jpg</span><br><span class="line">├── keytool.exe</span><br><span class="line">├── logs</span><br><span class="line">│   ├── 190317</span><br><span class="line">│   │   ├── 169.254.245.9</span><br><span class="line">│   │   │   ├── beacon_1031.log</span><br><span class="line">│   │   │   └── beacon_90986.log</span><br><span class="line">│   │   ├── events.log</span><br><span class="line">│   │   └── weblog.log</span><br><span class="line">│   └── 190825</span><br><span class="line">│       └── events.log</span><br><span class="line">├── peclone</span><br><span class="line">├── Readme-说明.htm</span><br><span class="line">├── Scripts				脚本</span><br><span class="line">│   ├── CVE-2018-4878.cna</span><br><span class="line">│   ├── elevate.cna</span><br><span class="line">│   ├── modules</span><br><span class="line">│   │   ├── cve-2015-1701.x64.dll</span><br><span class="line">│   │   ├── cve-2015-1701.x86.dll</span><br><span class="line">│   │   ├── cve-2016-0051.x86.dll</span><br><span class="line">│   │   ├── Invoke-EventVwrBypass.ps1</span><br><span class="line">│   │   ├── Invoke-MS16032.ps1</span><br><span class="line">│   │   └── Invoke-WScriptBypassUAC.ps1</span><br><span class="line">│   └── ProcessTree.cna</span><br><span class="line">├── teamserver				启动工具的脚本</span><br><span class="line">├── teamserver.bat			window下启动工具的脚本</span><br><span class="line">└── third-party				第三方工具</span><br><span class="line">    ├── README.vncdll.txt</span><br><span class="line">    ├── winvnc.x64.dll		64位的vnc</span><br><span class="line">    └── winvnc.x86.dll		32位的vnc</span><br></pre></td></tr></table></figure>
+
+<h2 id="工具运行-1"><a href="#工具运行-1" class="headerlink" title="工具运行"></a>工具运行</h2><p>进入目录执行先把服务端开好<br>命令语法:<code>./teamserver ip地址 密码</code></p>
+<p>如图:<br><img src="../../../../image/cs1/1%E5%BC%80%E5%90%AFcs.png" alt="开启cs"></p>
+<p>客户端连接:</p>
+<p>命令:<code>java -XX:ParallelGCThreads=4 -XX:+AggressiveHeap -XX:+UseParallelGC -jar cobaltstrike.jar</code><br>开启汉化的命令是:<code>java -Dfile.encoding=UTF-8 -javaagent:CobaltStrikeCN.jar -XX:ParallelGCThreads=4 -XX:+AggressiveHeap -XX:+UseParallelGC -jar cobaltstrike.jar</code><br><strong>第一次连接的服务器会显示服务端的SSL 证书的SHA256哈希值这个直接确定就可以了</strong></p>
+<p>如图:</p>
+<p><img src="../../../../image/cs1/2%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5.png" alt="开启cs客户端"></p>
+<p>然后点击连接就可以了</p>
+<p><img src="../../../../image/cs1/3cs%E7%95%8C%E9%9D%A2.png" alt="3cs界面"></p>
+<p>里面的目录就不介绍了,如果不懂的可以看<a href="https://wbglil.gitbooks.io/cobalt-strike/content/cobalt-strikeji-ben-shi-yong/ji-ben-shi-yong-jie-shao.html" target="_blank" rel="noopener">https://wbglil.gitbooks.io/cobalt-strike/content/cobalt-strikeji-ben-shi-yong/ji-ben-shi-yong-jie-shao.html</a></p>
+<h2 id="制作木马"><a href="#制作木马" class="headerlink" title="制作木马"></a>制作木马</h2><p>在制作木马之前先要创建一个监听器(类似msf的payload)</p>
+<p><img src="../../../../image/cs1/4%E7%9B%91%E5%90%AC%E5%99%A8%E6%8C%89%E9%92%AE.png" alt="监听器按钮"></p>
+<p>点击此按钮后点击add</p>
+<p><img src="../../../../image/cs1/5%E7%82%B9%E5%87%BBadd.png" alt="添加监听器"></p>
+<p>然后进行配置</p>
+<p><img src="../../../../image/cs1/6%E6%B7%BB%E5%8A%A0%E7%9B%91%E5%90%AC%E5%99%A8.png" alt="添加监听器"></p>
+<p>名字就是给监听器取的名字</p>
+<p>payload反弹的方式(有beacon字符串的可以反弹到cs里面,有foreign可以用来把shell传递到其他工具)</p>
+<p>主机:反弹到哪个ip上<br>端口:反弹到的端口<br>配置完成后点击save(遇到其他窗口点击确认就可以了)</p>
+<p>如图代表添加成功:</p>
+<p><img src="../../../../image/cs1/7%E7%9B%91%E5%90%AC%E5%99%A8.png" alt="监听器"></p>
+<p>然后制作木马</p>
+<p>如图添加一个exe的木马</p>
+<p><img src="../../../../image/cs1/8%E7%94%9F%E6%88%90%E5%90%8E%E9%97%A8.png" alt="8生成后门"></p>
+<p>对木马进行配置,</p>
+<p>监听器:选择自己生成监听器的名字<br>输出:代表输出的格式<br>然后点击Generate</p>
+<p><img src="../../../../image/cs1/9%E9%85%8D%E7%BD%AE%E6%9C%A8%E9%A9%AC.png" alt="配置木马"></p>
+<p>运行该木马</p>
+<p><img src="../../../../image/cs1/10%E4%B8%BB%E6%9C%BA%E4%B8%8A%E7%BA%BF.png" alt="10主机上线"></p>
+<h2 id="派送一个shell给msf"><a href="#派送一个shell给msf" class="headerlink" title="派送一个shell给msf"></a>派送一个shell给msf</h2><p>首先也要添加一个监听器</p>
+<p>payload要选择foreign类型的<br>主机填写是反弹到的ip<br>端口填写反弹到的端口</p>
+<p><img src="../../../../image/cs1/11%E5%88%B6%E4%BD%9Cmsf%E7%9B%91%E5%90%AC%E5%99%A8.png" alt="11制作msf监听器"></p>
+<p>配置完Cobalt Strike后配置msf</p>
+<p>如图:</p>
+<p><img src="../../../../image/cs1/12%E9%85%8D%E7%BD%AEmsf.png" alt="配置msf"></p>
+<p>然后回到Cobalt Strike,右击目标选择增加会话</p>
+<p><img src="../../../../image/cs1/13%E6%B4%BE%E7%94%9Fshell.png.png" alt="13派生shell.png"></p>
+<p>然后选择要派生给msf的那个监听器，在点Choose就可以了。</p>
+<p><img src="../../../../image/cs1/14%E8%AE%BE%E7%BD%AE%E5%8F%8D%E5%BC%B9shell.png" alt="设置反弹shell"></p>
+<p>然后等个1分钟左右就可以看到msf收到了传递过来的shell</p>
+<p><img src="../../../../image/cs1/15%E5%8F%8D%E5%BC%B9%E6%88%90%E5%8A%9F.png" alt="反弹成功"></p>
+<h2 id="把msf的shell传递个Cobalt-strike"><a href="#把msf的shell传递个Cobalt-strike" class="headerlink" title="把msf的shell传递个Cobalt strike"></a>把msf的shell传递个Cobalt strike</h2><p>首先也要创建一个监听器,因为前面已经创建了一个名字为cs的监听器，所以我们这里直接使用那时候创建的那个监听器就可以了,然后我们对msf进行配置</p>
+<p>先查看自己的session id</p>
+<p><img src="../../../../image/cs1/16msfshell.png" alt="16msf shell"></p>
+<p>然后在对msf进行配置</p>
+<p><img src="../../../../image/cs1/17%E9%85%8D%E7%BD%AEmsf.png" alt="17配置msf"></p>
+<p>然后就可以看到cobalt strike主机上线了</p>
+<p><img src="../../../../image/cs1/18%E4%B8%BB%E6%9C%BA%E4%B8%8A%E7%BA%BF.png" alt="18主机上线"></p>
+
+      
+    </div>
+
+    
+
+    
+      
+    
+
+    
+    
+    
+
+
+
+    
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>cuo kon</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cuokon.github.com/2019/08/25/cobaltstrike(一)/" title="cobaltstrike(一)">http://cuokon.github.com/2019/08/25/cobaltstrike(一)/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/tool/" rel="tag"># tool</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/03/常量过D盾/" rel="next" title="常量过D盾">
+                <i class="fa fa-chevron-left"></i> 常量过D盾
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/28/wfuzz/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+  
+    
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NTY1Ni8yMjE2Nw=="></div>
+  </div>
+  
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  
+    <img class="site-author-image" itemprop="image" src="https://avatars3.githubusercontent.com/u/43626445" alt="cuo kon">
+  
+  <p class="site-author-name" itemprop="name">cuo kon</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+
+
+  <nav class="site-state motion-element">
+    
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+
+
+
+
+  <div class="links-of-author motion-element">
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/cuokon" title="GitHub &rarr; https://github.com/cuokon" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:2804745224@qq.com" title="E-Mail &rarr; mailto:2804745224@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+  <div class="cc-license motion-element" itemprop="license">
+  
+  
+    
+  
+  
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fxnetw.com" title="https://www.fxnetw.com" rel="noopener" target="_blank">风雪's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://shadownb.github.io/" title="https://shadownb.github.io/" rel="noopener" target="_blank">shadow's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://www.lbx0726.com/" title="https://www.lbx0726.com/" rel="noopener" target="_blank">lbx0726's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://soyawww.github.io/" title="https://soyawww.github.io/" rel="noopener" target="_blank">soya's Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+          
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#工具分享"><span class="nav-number">1.</span> <span class="nav-text">工具分享</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件树"><span class="nav-number">2.</span> <span class="nav-text">文件树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工具运行"><span class="nav-number">3.</span> <span class="nav-text">工具运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工具分享-1"><span class="nav-number">4.</span> <span class="nav-text">工具分享</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件树-1"><span class="nav-number">5.</span> <span class="nav-text">文件树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工具运行-1"><span class="nav-number">6.</span> <span class="nav-text">工具运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#制作木马"><span class="nav-number">7.</span> <span class="nav-text">制作木马</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#派送一个shell给msf"><span class="nav-number">8.</span> <span class="nav-text">派送一个shell给msf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#把msf的shell传递个Cobalt-strike"><span class="nav-number">9.</span> <span class="nav-text">把msf的shell传递个Cobalt strike</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cuo kon</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">10k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">9 分钟</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.2.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.2.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.2.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.2.0"></script>
+<script src="/js/post-details.js?v=7.2.0"></script>
+
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+  
+
+  
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.2.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+
+
+
+<script>
+  window.livereOptions = {
+    refer: '2019/08/25/cobaltstrike(一)/'
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+  
+
+</body>
+</html>

