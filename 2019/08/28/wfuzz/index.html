@@ -120,13 +120,14 @@
   <meta name="description" content="wfuzz工具介绍wfuzz是一个用来FUZZ的工具,他可以用来查找一个web server中的隐藏的文件和路径，来扩大攻击面。还可以进行用户爆破,sql注入测试,绕过waff等等测试 wfuzz工具基本用法常用参数 12345678910111213141516171819202122232425262728293031323334要FUZZ的参数用FUZZ表示如果有3个就要这样第一个:FUZZ">
 <meta name="keywords" content="tools">
 <meta property="og:type" content="article">
-<meta property="og:title" content="错空&#39;s Blog">
+<meta property="og:title" content="wfuzz工具">
 <meta property="og:url" content="http://cuokon.github.com/2019/08/28/wfuzz/index.html">
 <meta property="og:site_name" content="错空&#39;s Blog">
 <meta property="og:description" content="wfuzz工具介绍wfuzz是一个用来FUZZ的工具,他可以用来查找一个web server中的隐藏的文件和路径，来扩大攻击面。还可以进行用户爆破,sql注入测试,绕过waff等等测试 wfuzz工具基本用法常用参数 12345678910111213141516171819202122232425262728293031323334要FUZZ的参数用FUZZ表示如果有3个就要这样第一个:FUZZ">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://cuokon.github.com/image/wfuzz/0.png">
 <meta property="og:image" content="http://cuokon.github.com/image/wfuzz/1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/2.png">
 <meta property="og:image" content="http://cuokon.github.com/image/wfuzz/2.png">
 <meta property="og:image" content="http://cuokon.github.com/image/wfuzz/3.png">
 <meta property="og:image" content="http://cuokon.github.com/image/wfuzz/4.png">
@@ -136,16 +137,15 @@
 <meta property="og:image" content="http://cuokon.github.com/image/wfuzz/8.png">
 <meta property="og:image" content="http://cuokon.github.com/image/wfuzz/9.png">
 <meta property="og:image" content="http://cuokon.github.com/image/wfuzz/10.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/1.png">
 <meta property="og:image" content="http://cuokon.github.com/image/wfuzz/11.png">
 <meta property="og:image" content="http://cuokon.github.com/image/wfuzz/12.png">
 <meta property="og:image" content="http://cuokon.github.com/image/wfuzz/13.png">
 <meta property="og:image" content="http://cuokon.github.com/image/wfuzz/14.png">
 <meta property="og:image" content="http://cuokon.github.com/image/wfuzz/15.png">
 <meta property="og:image" content="http://cuokon.github.com/image/wfuzz/16.png">
-<meta property="og:updated_time" content="2019-08-28T23:17:23.431Z">
+<meta property="og:updated_time" content="2019-08-28T23:24:43.781Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="错空&#39;s Blog">
+<meta name="twitter:title" content="wfuzz工具">
 <meta name="twitter:description" content="wfuzz工具介绍wfuzz是一个用来FUZZ的工具,他可以用来查找一个web server中的隐藏的文件和路径，来扩大攻击面。还可以进行用户爆破,sql注入测试,绕过waff等等测试 wfuzz工具基本用法常用参数 12345678910111213141516171819202122232425262728293031323334要FUZZ的参数用FUZZ表示如果有3个就要这样第一个:FUZZ">
 <meta name="twitter:image" content="http://cuokon.github.com/image/wfuzz/0.png">
 
@@ -166,7 +166,7 @@
 </script>
 
   
-  <title> | 错空's Blog</title>
+  <title>wfuzz工具 | 错空's Blog</title>
   
 
 
@@ -419,7 +419,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">wfuzz工具
 
               
             
@@ -460,7 +460,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-29 07:17:23" itemprop="dateModified" datetime="2019-08-29T07:17:23+08:00">2019-08-29</time>
+                <time title="修改时间：2019-08-29 07:24:43" itemprop="dateModified" datetime="2019-08-29T07:24:43+08:00">2019-08-29</time>
               </span>
             
           
@@ -529,13 +529,13 @@
 
 <h3 id="界面介绍"><a href="#界面介绍" class="headerlink" title="界面介绍"></a>界面介绍</h3><p><img src="../../../../image/wfuzz/0.png" alt="0"><br>id:代表编号<br>Response: 代表返回状态码(C=404代表返回404状态码)<br>Lines: 代表返回的行数<br>Word: 代表返回的字数<br>Chars: 代表返回的字符数<br>payload: 代表发出去的payload</p>
 <h3 id="c参数"><a href="#c参数" class="headerlink" title="-c参数"></a>-c参数</h3><p>下面是一个无-c参数的<br><code>$ wfuzz -z file,dir.txt --hc 404 http://172.16.5.2/FUZZ</code><br><img src="../../../../image/wfuzz/1.png" alt="1"><br>一个有-c参数的<br><code>wfuzz -c -z file,dir.txt --hc 404 http://172.16.5.2/FUZZ</code><br><img src="../../../../image/wfuzz/2.png" alt="2"></p>
-<h3 id="z参数"><a href="#z参数" class="headerlink" title="-z参数"></a>-z参数</h3><p>把文件内容当做payload<br><code>wfuzz -c -z file,dir.txt![4](https://markdown.xiaoshujiang.com/img/spinner.gif &quot;[[[1566996402195]]]&quot; ) http://172.16.5.2/FUZZ</code><br><img src="../../../../image/wfuzz/3.png" alt="2"><br>用rang来当做payload<br><code>wfuzz -c -z range,10-20 --hc 404 http://172.16.5.2/FUZZ</code><br><img src="../../../../image/wfuzz/4.png" alt="3"><br>用list来当做payload<br><code>wfuzz -c -z list,20-a-b-upload-login --hc 404 http://172.16.5.2/FUZZ</code><br><img src="../../../../image/wfuzz/5.png" alt="4"></p>
-<h3 id="d设置POST数据"><a href="#d设置POST数据" class="headerlink" title="-d设置POST数据"></a>-d设置POST数据</h3><p><code>wfuzz -c -z list,20-a-b-upload-login -d &quot;user=FUZZ&quot; http://172.16.5.2/</code><br><img src="../../../../image/wfuzz/6.png" alt="5"></p>
-<h3 id="b设置cookie"><a href="#b设置cookie" class="headerlink" title="-b设置cookie"></a>-b设置cookie</h3><p>设置2个cookie,其中一个是user还有一个是passwd<br><code>wfuzz -c -z list,20-a-b-upload-login -d &quot;user=FUZZ&quot; -b &quot;user=test&quot; -b &quot;passwd=test&quot; http://172.16.5.2/</code><br><img src="../../../../image/wfuzz/7.png" alt="6"><br>设置多个cookie要用多个-b</p>
-<h3 id="X参数设置请求方法"><a href="#X参数设置请求方法" class="headerlink" title="-X参数设置请求方法"></a>-X参数设置请求方法</h3><p><code>wfuzz -c -z list,GET-POST-HEAD -X FUZZ http://172.16.5.2/</code><br><img src="../../../../image/wfuzz/8.png" alt="7"></p>
-<h3 id="p设置代理"><a href="#p设置代理" class="headerlink" title="-p设置代理"></a>-p设置代理</h3><p><code>wfuzz -c -z list,20-a-b-upload-login -p 127.0.0.1:SOCKS4,127.0.0.1:SOCKS5  http://172.16.5.2/</code><br><img src="../../../../image/wfuzz/9.png" alt="8"></p>
-<h3 id="t设置线程"><a href="#t设置线程" class="headerlink" title="-t设置线程"></a>-t设置线程</h3><p><code>wfuzz -c -z list,20-a-b-upload-login -t 30  http://172.16.5.2/</code><br><img src="../../../../image/wfuzz/10.png" alt="9"></p>
-<h2 id="实用技巧"><a href="#实用技巧" class="headerlink" title="实用技巧"></a>实用技巧</h2><h3 id="爆破目录"><a href="#爆破目录" class="headerlink" title="爆破目录"></a>爆破目录</h3><p><code>wfuzz -c -z file,dir.txt --sc 403,200,304 http://172.16.5.2/FUZZ</code><br><img src="../../../../image/wfuzz/1.png" alt="10"></p>
+<h3 id="z参数"><a href="#z参数" class="headerlink" title="-z参数"></a>-z参数</h3><p>把文件内容当做payload<br><code>wfuzz -c -z file,dir.txt http://172.16.5.2/FUZZ</code><br><img src="../../../../image/wfuzz/2.png" alt="2"><br>用rang来当做payload<br><code>wfuzz -c -z range,10-20 --hc 404 http://172.16.5.2/FUZZ</code><br><img src="../../../../image/wfuzz/3.png" alt="3"><br>用list来当做payload<br><code>wfuzz -c -z list,20-a-b-upload-login --hc 404 http://172.16.5.2/FUZZ</code><br><img src="../../../../image/wfuzz/4.png" alt="4"></p>
+<h3 id="d设置POST数据"><a href="#d设置POST数据" class="headerlink" title="-d设置POST数据"></a>-d设置POST数据</h3><p><code>wfuzz -c -z list,20-a-b-upload-login -d &quot;user=FUZZ&quot; http://172.16.5.2/</code><br><img src="../../../../image/wfuzz/5.png" alt="5"></p>
+<h3 id="b设置cookie"><a href="#b设置cookie" class="headerlink" title="-b设置cookie"></a>-b设置cookie</h3><p>设置2个cookie,其中一个是user还有一个是passwd<br><code>wfuzz -c -z list,20-a-b-upload-login -d &quot;user=FUZZ&quot; -b &quot;user=test&quot; -b &quot;passwd=test&quot; http://172.16.5.2/</code><br><img src="../../../../image/wfuzz/6.png" alt="6"><br>设置多个cookie要用多个-b</p>
+<h3 id="X参数设置请求方法"><a href="#X参数设置请求方法" class="headerlink" title="-X参数设置请求方法"></a>-X参数设置请求方法</h3><p><code>wfuzz -c -z list,GET-POST-HEAD -X FUZZ http://172.16.5.2/</code><br><img src="../../../../image/wfuzz/7.png" alt="7"></p>
+<h3 id="p设置代理"><a href="#p设置代理" class="headerlink" title="-p设置代理"></a>-p设置代理</h3><p><code>wfuzz -c -z list,20-a-b-upload-login -p 127.0.0.1:SOCKS4,127.0.0.1:SOCKS5  http://172.16.5.2/</code><br><img src="../../../../image/wfuzz/8.png" alt="8"></p>
+<h3 id="t设置线程"><a href="#t设置线程" class="headerlink" title="-t设置线程"></a>-t设置线程</h3><p><code>wfuzz -c -z list,20-a-b-upload-login -t 30  http://172.16.5.2/</code><br><img src="../../../../image/wfuzz/9.png" alt="9"></p>
+<h2 id="实用技巧"><a href="#实用技巧" class="headerlink" title="实用技巧"></a>实用技巧</h2><h3 id="爆破目录"><a href="#爆破目录" class="headerlink" title="爆破目录"></a>爆破目录</h3><p><code>wfuzz -c -z file,dir.txt --sc 403,200,304 http://172.16.5.2/FUZZ</code><br><img src="../../../../image/wfuzz/10.png" alt="10"></p>
 <h3 id="爆破文件"><a href="#爆破文件" class="headerlink" title="爆破文件"></a>爆破文件</h3><p><code>wfuzz -c -z file,dir.txt --sc 200,304 http://172.16.5.2/FUZZ.php</code><br><img src="../../../../image/wfuzz/11.png" alt="11"></p>
 <h3 id="爆破账号密码"><a href="#爆破账号密码" class="headerlink" title="爆破账号密码"></a>爆破账号密码</h3><p>第一种爆破(一个字典对应一个字典)<br><code>wfuzz -z list,a-b-c-admin -z list,1-2-3-admin -m zip -d &quot;user=FUZZ&amp;password=FUZ2Z&quot; http://172.16.5.96/login/login.php</code><br><img src="../../../../image/wfuzz/12.png" alt="12"><br>第二种爆破(一个字典中的一个值直接对应另外一个字典的所有值)<br><code>wfuzz -z list,a-b-c-admin -z list,1-2-3-admin -d &quot;user=FUZZ&amp;password=FUZ2Z&quot; http://172.16.5.96/login/login.php</code><br><img src="../../../../image/wfuzz/13.png" alt="13"></p>
 <h3 id="保存文件"><a href="#保存文件" class="headerlink" title="保存文件"></a>保存文件</h3><p>保存html文件<br><code>wfuzz -c -z file,dir.txt -f 1,html http://172.16.5.96/FUZZ</code><br><img src="../../../../image/wfuzz/14.png" alt="14"></p>
@@ -582,7 +582,7 @@
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
     
-    <a href="http://cuokon.github.com/2019/08/28/wfuzz/">http://cuokon.github.com/2019/08/28/wfuzz/</a>
+    <a href="http://cuokon.github.com/2019/08/28/wfuzz/" title="wfuzz工具">http://cuokon.github.com/2019/08/28/wfuzz/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
