@@ -117,13 +117,13 @@
   };
 </script>
 
-  <meta name="description" content="引言在打nctf的时候,由一道ctf题目引发的过D盾的思路,主要思路用的是一个比较偏的函数get_defined_functions 过Dget_defined_functions()函数会返回一个2维数组,里面包括了所有的函数,还有自定义的函数  这里就有2个思路了一个是通过自己写的函数去执行,或者可以通过自带的函数例如assert去执行先写一个自带的函数去执行内容的代码 123&amp;lt;?php">
+  <meta name="description" content="引言在打nctf的时候,由一道ctf题目引发的过D盾的思路 过Dget_defined_functions()函数会返回一个2维数组,里面包括了所有的函数,还有自定义的函数  这里就有2个思路了一个是通过自己写的函数去执行,或者可以通过自带的函数例如assert去执行先写一个自带的函数去执行内容的代码 123&amp;lt;?php$a=get_defined_functions();$a[&apos;intern">
 <meta name="keywords" content="web">
 <meta property="og:type" content="article">
 <meta property="og:title" content="过D">
 <meta property="og:url" content="http://cuokon.github.com/2019/11/26/过D/index.html">
 <meta property="og:site_name" content="错空&#39;s Blog">
-<meta property="og:description" content="引言在打nctf的时候,由一道ctf题目引发的过D盾的思路,主要思路用的是一个比较偏的函数get_defined_functions 过Dget_defined_functions()函数会返回一个2维数组,里面包括了所有的函数,还有自定义的函数  这里就有2个思路了一个是通过自己写的函数去执行,或者可以通过自带的函数例如assert去执行先写一个自带的函数去执行内容的代码 123&amp;lt;?php">
+<meta property="og:description" content="引言在打nctf的时候,由一道ctf题目引发的过D盾的思路 过Dget_defined_functions()函数会返回一个2维数组,里面包括了所有的函数,还有自定义的函数  这里就有2个思路了一个是通过自己写的函数去执行,或者可以通过自带的函数例如assert去执行先写一个自带的函数去执行内容的代码 123&amp;lt;?php$a=get_defined_functions();$a[&apos;intern">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://cuokon.github.com/image/%E8%BF%87D/1.png">
 <meta property="og:image" content="http://cuokon.github.com/image/%E8%BF%87D/2.png">
@@ -132,10 +132,10 @@
 <meta property="og:image" content="http://cuokon.github.com/image/%E8%BF%87D/5.png">
 <meta property="og:image" content="http://cuokon.github.com/image/%E8%BF%87D/6.png">
 <meta property="og:image" content="http://cuokon.github.com/image/%E8%BF%87D/7.png">
-<meta property="og:updated_time" content="2019-11-28T13:36:44.930Z">
+<meta property="og:updated_time" content="2019-11-29T00:04:11.543Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="过D">
-<meta name="twitter:description" content="引言在打nctf的时候,由一道ctf题目引发的过D盾的思路,主要思路用的是一个比较偏的函数get_defined_functions 过Dget_defined_functions()函数会返回一个2维数组,里面包括了所有的函数,还有自定义的函数  这里就有2个思路了一个是通过自己写的函数去执行,或者可以通过自带的函数例如assert去执行先写一个自带的函数去执行内容的代码 123&amp;lt;?php">
+<meta name="twitter:description" content="引言在打nctf的时候,由一道ctf题目引发的过D盾的思路 过Dget_defined_functions()函数会返回一个2维数组,里面包括了所有的函数,还有自定义的函数  这里就有2个思路了一个是通过自己写的函数去执行,或者可以通过自带的函数例如assert去执行先写一个自带的函数去执行内容的代码 123&amp;lt;?php$a=get_defined_functions();$a[&apos;intern">
 <meta name="twitter:image" content="http://cuokon.github.com/image/%E8%BF%87D/1.png">
 
 
@@ -449,7 +449,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-11-28 21:36:44" itemprop="dateModified" datetime="2019-11-28T21:36:44+08:00">2019-11-28</time>
+                <time title="修改时间：2019-11-29 08:04:11" itemprop="dateModified" datetime="2019-11-29T08:04:11+08:00">2019-11-29</time>
               </span>
             
           
@@ -496,7 +496,7 @@
               
                 <span class="post-meta-item-text">本文字数：</span>
               
-              <span title="本文字数">743</span>
+              <span title="本文字数">706</span>
             </span>
           
 
@@ -527,7 +527,7 @@
       
 
       
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在打nctf的时候,由一道ctf题目引发的过D盾的思路,主要思路用的是一个比较偏的函数get_defined_functions</p>
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在打nctf的时候,由一道ctf题目引发的过D盾的思路</p>
 <h2 id="过D"><a href="#过D" class="headerlink" title="过D"></a>过D</h2><p>get_defined_functions()函数会返回一个2维数组,里面包括了所有的函数,还有自定义的函数</p>
 <p><img src="../../../../image/%E8%BF%87D/1.png" alt></p>
 <p>这里就有2个思路了一个是通过自己写的函数去执行,或者可以通过自带的函数例如assert去执行<br>先写一个自带的函数去执行内容的代码</p>
