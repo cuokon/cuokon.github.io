@@ -117,14 +117,26 @@
   };
 </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="guestbook">
-<meta property="og:url" content="http://cuokon.github.com/guestbook/index.html">
+  <meta name="description" content="udf提权udf是mysql的自定义函数,扩展函数,我们可以添加一个执行系统命令的系统函数,来获得权限。在winodw下一般mysql服务的权限都是比较高的,我们执行的系统命令都是用mysql服务的权限去执行系统命令的。 利用条件:1.知道数据库的root用户和密码2.对mysql目录有可读可写的权限 试验首先用命令show variables like &amp;quot;%plugin%&amp;quot;查">
+<meta name="keywords" content="提权">
+<meta property="og:type" content="article">
+<meta property="og:title" content="utf提权">
+<meta property="og:url" content="http://cuokon.github.com/2019/12/09/udf提权/index.html">
 <meta property="og:site_name" content="错空&#39;s Blog">
+<meta property="og:description" content="udf提权udf是mysql的自定义函数,扩展函数,我们可以添加一个执行系统命令的系统函数,来获得权限。在winodw下一般mysql服务的权限都是比较高的,我们执行的系统命令都是用mysql服务的权限去执行系统命令的。 利用条件:1.知道数据库的root用户和密码2.对mysql目录有可读可写的权限 试验首先用命令show variables like &amp;quot;%plugin%&amp;quot;查">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-28T16:15:26.000Z">
+<meta property="og:image" content="http://cuokon.github.com/image/udf%E6%8F%90%E6%9D%83/1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/udf%E6%8F%90%E6%9D%83/2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/udf%E6%8F%90%E6%9D%83/3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/udf%E6%8F%90%E6%9D%83/4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/udf%E6%8F%90%E6%9D%83/5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/udf%E6%8F%90%E6%9D%83/6.png">
+<meta property="og:image" content="http://cuokon.github.com/image/udf%E6%8F%90%E6%9D%83/7.png">
+<meta property="og:updated_time" content="2019-12-09T07:54:02.006Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="guestbook">
+<meta name="twitter:title" content="utf提权">
+<meta name="twitter:description" content="udf提权udf是mysql的自定义函数,扩展函数,我们可以添加一个执行系统命令的系统函数,来获得权限。在winodw下一般mysql服务的权限都是比较高的,我们执行的系统命令都是用mysql服务的权限去执行系统命令的。 利用条件:1.知道数据库的root用户和密码2.对mysql目录有可读可写的权限 试验首先用命令show variables like &amp;quot;%plugin%&amp;quot;查">
+<meta name="twitter:image" content="http://cuokon.github.com/image/udf%E6%8F%90%E6%9D%83/1.png">
 
 
 
@@ -132,7 +144,7 @@
 
   
   
-  <link rel="canonical" href="http://cuokon.github.com/guestbook/">
+  <link rel="canonical" href="http://cuokon.github.com/2019/12/09/udf提权/">
 
 
 
@@ -143,7 +155,7 @@
 </script>
 
   
-  <title>guestbook | 错空's Blog</title>
+  <title>utf提权 | 错空's Blog</title>
   
 
 
@@ -361,73 +373,246 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
   <div id="posts" class="posts-expand">
+      
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cuokon.github.com/2019/12/09/udf提权/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cuo kon">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/43626445">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="错空's Blog">
+    </span>
+
     
-    
-    
-    <div class="post-block page">
       <header class="post-header">
 
-<h1 class="post-title" itemprop="name headline">guestbook
-
-</h1>
-
-<div class="post-meta">
-  
-  
-
-
-
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"></div>
+          <h1 class="post-title" itemprop="name headline">utf提权
+
+              
+            
+          </h1>
         
-      </div>
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-09 14:47:48 / 修改时间：15:54:02" itemprop="dateCreated datePublished" datetime="2019-12-09T14:47:48+08:00">2019-12-09</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术实战/" itemprop="url" rel="index"><span itemprop="name">技术实战</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+                 阅读次数： 
+                <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+              </span>
+            </span>
+          
+		  
+		  
+          
+
+          <br>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span title="本文字数">652</span>
+            </span>
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span title="阅读时长">1 分钟</span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h2 id="udf提权"><a href="#udf提权" class="headerlink" title="udf提权"></a>udf提权</h2><p>udf是mysql的自定义函数,扩展函数,我们可以添加一个执行系统命令的系统函数,来获得权限。在winodw下一般mysql服务的权限都是比较高的,我们执行的系统命令都是用mysql服务的权限去执行系统命令的。</p>
+<p>利用条件:<br>1.知道数据库的root用户和密码<br>2.对mysql目录有可读可写的权限</p>
+<h2 id="试验"><a href="#试验" class="headerlink" title="试验"></a>试验</h2><p>首先用命令<code>show variables like &quot;%plugin%&quot;</code>查看插件路径<br><img src="../../../../image/udf%E6%8F%90%E6%9D%83/1.png" alt="1"><br>因为一般都没有lib目录和plugin目录,所以要我们创建者2个目录,创建完目录后,查看一下mysql的是多少位的<code>mysql -V</code><br><img src="../../../../image/udf%E6%8F%90%E6%9D%83/2.png" alt="2"><br>sqlmap文件里面有自带的udf提权的dll文件,我们可以用他来进行提权。路径是:<code>sqlmap\data\udf\mysql\windows\</code>里面有32位和64位的自行选择,然后用<code>sqlmap\extra\cloak\clock.py</code>来生成dll文件<br><code>python clock.py -d -i lib_mysqludf_sys.dll_</code>,路径自己改<br><img src="../../../../image/udf%E6%8F%90%E6%9D%83/3.png" alt="3"><br>会在lib_mysqludf_sys.dll_所在的目录生成lib_mysqludf_sys.dll文件<br><img src="../../../../image/udf%E6%8F%90%E6%9D%83/4.png" alt="4"><br>然后把lib_mysqludf_sys.dll发到plugin那个目录,用mysql创建自定义函数<br><code>create function sys_eval returns string soname &#39;lib_mysqludf_sys.dll&#39;;</code><br><img src="../../../../image/udf%E6%8F%90%E6%9D%83/5.png" alt="5"><br><img src="../../../../image/udf%E6%8F%90%E6%9D%83/6.png" alt="6"><br>可以看到函数创建成功,然后看看自己的权限<br><img src="../../../../image/udf%E6%8F%90%E6%9D%83/7.png" alt="7"><br>已经是管理员的权限了</p>
+
       
     </div>
+
+    
+
+    
+      
+    
+
+    
+    
     
 
 
 
     
     
+
     
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>cuo kon</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cuokon.github.com/2019/12/09/udf提权/" title="utf提权">http://cuokon.github.com/2019/12/09/udf提权/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/提权/" rel="tag"># 提权</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/28/CVE-2019-1388UAC提权复现/" rel="next" title="CVE-2019-1388UAC提权复现">
+                <i class="fa fa-chevron-left"></i> CVE-2019-1388UAC提权复现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
   </div>
 
 
@@ -462,8 +647,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
 
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -635,6 +829,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#udf提权"><span class="nav-number">1.</span> <span class="nav-text">udf提权</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#试验"><span class="nav-number">2.</span> <span class="nav-text">试验</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
@@ -871,12 +1082,10 @@
     
 
 
-  
-
 
 <script>
   window.livereOptions = {
-    refer: 'guestbook/'
+    refer: '2019/12/09/udf提权/'
   };
   (function(d, s) {
     var j, e = d.getElementsByTagName(s)[0];

@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[utf提权]]></title>
+    <url>%2F2019%2F12%2F09%2Fudf%E6%8F%90%E6%9D%83%2F</url>
+    <content type="text"><![CDATA[udf提权udf是mysql的自定义函数,扩展函数,我们可以添加一个执行系统命令的系统函数,来获得权限。在winodw下一般mysql服务的权限都是比较高的,我们执行的系统命令都是用mysql服务的权限去执行系统命令的。 利用条件:1.知道数据库的root用户和密码2.对mysql目录有可读可写的权限 试验首先用命令show variables like &quot;%plugin%&quot;查看插件路径因为一般都没有lib目录和plugin目录,所以要我们创建者2个目录,创建完目录后,查看一下mysql的是多少位的mysql -Vsqlmap文件里面有自带的udf提权的dll文件,我们可以用他来进行提权。路径是:sqlmap\data\udf\mysql\windows\里面有32位和64位的自行选择,然后用sqlmap\extra\cloak\clock.py来生成dll文件python clock.py -d -i lib_mysqludf_sys.dll_,路径自己改会在lib_mysqludf_sys.dll_所在的目录生成lib_mysqludf_sys.dll文件然后把lib_mysqludf_sys.dll发到plugin那个目录,用mysql创建自定义函数create function sys_eval returns string soname &#39;lib_mysqludf_sys.dll&#39;;可以看到函数创建成功,然后看看自己的权限已经是管理员的权限了]]></content>
+      <categories>
+        <category>技术实战</category>
+      </categories>
+      <tags>
+        <tag>提权</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[CVE-2019-1388UAC提权复现]]></title>
     <url>%2F2019%2F11%2F28%2FCVE-2019-1388UAC%E6%8F%90%E6%9D%83%E5%A4%8D%E7%8E%B0%2F</url>
     <content type="text"><![CDATA[漏洞简介该漏洞位于Windows的UAC（User Account Control，用户帐户控制）机制中。默认情况下，Windows会在一个单独的桌面上显示所有的UAC提示——Secure Desktop。这些提示是由名为consent.exe的可执行文件产生的，该可执行文件以NT AUTHORITY\SYSTEM权限运行，完整性级别为System。因为用户可以与该UI交互，因此对UI来说紧限制是必须的。否则，低权限的用户可能可以通过UI操作的循环路由以SYSTEM权限执行操作。即使隔离状态的看似无害的UI特征都可能会成为引发任意控制的动作链的第一步。事实上，UAC会话中含有尽可能少的点击操作选项。利用该漏洞很容易就可以提升权限到SYSTEM 漏洞影响范围Windows 2008r2 7601 link OPENED AS SYSTEMWindows 2012r2 9600 link OPENED AS SYSTEMWindows 2016 14393 link OPENED AS SYSTEMWindows 2019 17763 link NOT openedWindows 7 SP1 7601 link OPENED AS SYSTEMWindows 8 9200 link OPENED AS SYSTEMWindows 8.1 9600 link OPENED AS SYSTEMWindows 10 1511 10240 link OPENED AS SYSTEMWindows 10 1607 14393 link OPENED AS SYSTEMWindows 10 1703 15063 link NOT openedWindows 10 1709 16299 link NOT opened 漏洞复现Windows 2012 Windows 7 Windows 2008r2 工具https://github.com/jas502n/CVE-2019-1388/]]></content>
